@@ -82,12 +82,12 @@ public class HospApiController {
      * @param hoscode
      * @return
      */
-    @ApiOperation(value = "根据医院编号查询科室")
-    @GetMapping("/department/{hoscode}")
-    public Result findDepartmentByHoscode(@PathVariable String hoscode) {
-        List<DepartmentVo> list = departmentService.findDeptTree(hoscode);
-        return Result.ok(list);
-    }
+//    @ApiOperation(value = "根据医院编号查询科室")
+//    @GetMapping("/department/{hoscode}")
+//    public Result findDepartmentByHoscode(@PathVariable String hoscode) {
+//        List<DepartmentVo> list = departmentService.findDeptTree(hoscode);
+//        return Result.ok(list);
+//    }
 
     /**
      * 根据医院编号获取医院科室预约详情

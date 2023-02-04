@@ -21,18 +21,18 @@ import java.util.List;
 @RequestMapping("/admin/hosp/department")
 public class DepartmentController {
 
-    @Autowired
-    private DepartmentService departmentService;
+//    @Autowired
+//    private DepartmentService departmentService;
 
     /**
      * 根据医院编号查询该医院下所有的科室
      * @param hoscode
      * @return
      */
-    @ApiOperation(value = "查询医院所有科室")
-    @GetMapping("getDepartLIst/{hoscode}")
-    public Result getDepartList(@PathVariable String hoscode){
-        List<DepartmentVo> departmentVoList = departmentService.findDeptTree(hoscode);
-        return Result.ok(departmentVoList);
-    }
+//    @ApiOperation(value = "查询医院所有科室")
+//    @GetMapping("getDepartLIst/{hoscode}")
+//    public Result getDepartList(@PathVariable String hoscode){
+//        List<DepartmentVo> departmentVoList = departmentService.findDeptTree(hoscode);
+//        return Result.ok(departmentVoList);
+//    }
 }

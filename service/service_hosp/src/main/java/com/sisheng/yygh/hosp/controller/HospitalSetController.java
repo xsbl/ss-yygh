@@ -18,25 +18,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Random;
 
-/**
- * @author bobochang
- * @description
- * @created 2022/6/29-14:53
- **/
-
 @Api(tags = "医院设置管理")
 @RestController
 @RequestMapping("/admin/hosp/hospitalSet")
 public class HospitalSetController {
 
+    // http://localhost:8201/admin/hosp/hospitalSet/findAll
+
     @Autowired
     private HospitalSetService hospitalSetService;
 
-    /**
-     * 获取所有医院信息
-     *
-     * @return
-     */
     @ApiOperation(value = "获取所有医院信息")
     @GetMapping("/findAll")
     public Result findAll() {
@@ -69,25 +60,25 @@ public class HospitalSetController {
      * @param hospitalSetQueryVo 医院设置搜索实体类
      * @return
      */
-    @ApiOperation(value = "条件查询医院信息")
-    @PostMapping("/findPageHospitalSet/{current}/{limit}")
-    public Result findPageHospitalSet(
-            @PathVariable long current,
-            @PathVariable long limit,
-            @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
-        Page<HospitalSet> page = new Page<>(current, limit);
-        QueryWrapper<HospitalSet> queryWrapper = new QueryWrapper<>();
-        String hosname = hospitalSetQueryVo.getHosname();
-        String hoscode = hospitalSetQueryVo.getHoscode();
-        if (!StringUtils.isEmpty(hosname)) {
-            queryWrapper.like("hosname", hospitalSetQueryVo.getHosname());
-        }
-        if (!StringUtils.isEmpty(hoscode)) {
-            queryWrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
-        }
-        Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, queryWrapper);
-        return Result.ok(hospitalSetPage);
-    }
+//    @ApiOperation(value = "条件查询医院信息")
+//    @PostMapping("/findPageHospitalSet/{current}/{limit}")
+//    public Result findPageHospitalSet(
+//            @PathVariable long current,
+//            @PathVariable long limit,
+//            @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
+//        Page<HospitalSet> page = new Page<>(current, limit);
+//        QueryWrapper<HospitalSet> queryWrapper = new QueryWrapper<>();
+//        String hosname = hospitalSetQueryVo.getHosname();
+//        String hoscode = hospitalSetQueryVo.getHoscode();
+//        if (!StringUtils.isEmpty(hosname)) {
+//            queryWrapper.like("hosname", hospitalSetQueryVo.getHosname());
+//        }
+//        if (!StringUtils.isEmpty(hoscode)) {
+//            queryWrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
+//        }
+//        Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, queryWrapper);
+//        return Result.ok(hospitalSetPage);
+//    }
 
     /**
      * 添加医院设置信息
@@ -95,22 +86,22 @@ public class HospitalSetController {
      * @param hospitalSet 医院信息
      * @return
      */
-    @ApiOperation(value = "添加医院设置信息")
-    @PostMapping("/saveHospitalSet")
-    public Result saveHospitalSet(@RequestBody HospitalSet hospitalSet) {
-        //设置状态 1 使用 0 不能使用
-        hospitalSet.setStatus(1);
-        //签名秘钥
-        Random random = new Random();
-        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
-        //调用service
-        boolean save = hospitalSetService.save(hospitalSet);
-        if (save) {
-            return Result.ok();
-        } else {
-            return Result.fail();
-        }
-    }
+//    @ApiOperation(value = "添加医院设置信息")
+//    @PostMapping("/saveHospitalSet")
+//    public Result saveHospitalSet(@RequestBody HospitalSet hospitalSet) {
+//        //设置状态 1 使用 0 不能使用
+//        hospitalSet.setStatus(1);
+//        //签名秘钥
+//        Random random = new Random();
+//        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
+//        //调用service
+//        boolean save = hospitalSetService.save(hospitalSet);
+//        if (save) {
+//            return Result.ok();
+//        } else {
+//            return Result.fail();
+//        }
+//    }
 
     /**
      * 根据id获取医院设置信息
@@ -166,28 +157,28 @@ public class HospitalSetController {
      * @param status
      * @return
      */
-    @ApiOperation(value = "医院解锁和锁定")
-    @PutMapping("/lockHospital/{id}/{status}")
-    public Result lockHospitalSet(@PathVariable long id,
-                                  @PathVariable Integer status) {
-        HospitalSet hospitalSet = hospitalSetService.getById(id);
-        hospitalSet.setStatus(status);
-        hospitalSetService.updateById(hospitalSet);
-        return Result.ok();
-    }
+//    @ApiOperation(value = "医院解锁和锁定")
+//    @PutMapping("/lockHospital/{id}/{status}")
+//    public Result lockHospitalSet(@PathVariable long id,
+//                                  @PathVariable Integer status) {
+//        HospitalSet hospitalSet = hospitalSetService.getById(id);
+//        hospitalSet.setStatus(status);
+//        hospitalSetService.updateById(hospitalSet);
+//        return Result.ok();
+//    }
 
     /**
      * 签名秘钥发送
      * @param id
      * @return
      */
-    @ApiOperation(value = "签名秘钥发送")
-    @PutMapping("/sendKey/{id}")
-    public Result sendKey(@PathVariable long id) {
-        HospitalSet hospitalSet = hospitalSetService.getById(id);
-        String signKey = hospitalSet.getSignKey();
-        String hoscode = hospitalSet.getHoscode();
-        //TODO 发送短信
-        return Result.ok();
-    }
+//    @ApiOperation(value = "签名秘钥发送")
+//    @PutMapping("/sendKey/{id}")
+//    public Result sendKey(@PathVariable long id) {
+//        HospitalSet hospitalSet = hospitalSetService.getById(id);
+//        String signKey = hospitalSet.getSignKey();
+//        String hoscode = hospitalSet.getHoscode();
+//        //TODO 发送短信
+//        return Result.ok();
+//    }
 }

@@ -220,3 +220,5 @@ CREATE TABLE `user_login_record` (
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8 COMMENT='用户登录记录表';
+
+CREATE DATABASE IF NOT EXISTS `yygh_manage` CHARACTER SET utf8;
