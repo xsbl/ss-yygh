@@ -35,14 +35,8 @@ public class HospitalSetController {
         return Result.ok(list);
     }
 
-    /**
-     * 删除指定医院信息
-     *
-     * @param id 指定医院的id
-     * @return
-     */
     @ApiOperation(value = "删除指定医院信息")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deleteById/{id}")
     public Result deleteByID(@PathVariable long id) {
         boolean flag = hospitalSetService.removeById(id);
         if (flag) {
