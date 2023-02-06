@@ -83,12 +83,6 @@ public class HospitalSetController {
         }
     }
 
-    /**
-     * 根据id获取医院设置信息
-     *
-     * @param id
-     * @return
-     */
     @ApiOperation(value = "根据id获取医院信息")
     @GetMapping("/getHospitalSet/{id}")
     public Result getHospSetById(@PathVariable long id) {
@@ -96,13 +90,7 @@ public class HospitalSetController {
         return Result.ok(hospitalSet);
     }
 
-    /**
-     * 修改医院设置信息
-     *
-     * @param hospitalSet
-     * @return
-     */
-    @ApiOperation(value = "修改医院设置信息")
+    @ApiOperation(value = "修改医院信息")
     @PostMapping("/updateHospitalSet")
     public Result updateHospitalSet(@RequestBody HospitalSet hospitalSet) {
         boolean flag = hospitalSetService.updateById(hospitalSet);
