@@ -101,14 +101,8 @@ public class HospitalSetController {
         }
     }
 
-    /**
-     * 批量删除医院信息
-     *
-     * @param idList
-     * @return
-     */
     @ApiOperation(value = "批量删除医院信息")
-    @DeleteMapping("batchRemove")
+    @DeleteMapping("/batchRemove")
     public Result batchRemoveHospitalSet(@RequestBody List<Long> idList) {
         boolean flag = hospitalSetService.removeByIds(idList);
         if (flag) {
@@ -118,22 +112,15 @@ public class HospitalSetController {
         }
     }
 
-    /**
-     * 医院信息解锁和锁定
-     *
-     * @param id
-     * @param status
-     * @return
-     */
-//    @ApiOperation(value = "医院解锁和锁定")
-//    @PutMapping("/lockHospital/{id}/{status}")
-//    public Result lockHospitalSet(@PathVariable long id,
-//                                  @PathVariable Integer status) {
-//        HospitalSet hospitalSet = hospitalSetService.getById(id);
-//        hospitalSet.setStatus(status);
-//        hospitalSetService.updateById(hospitalSet);
-//        return Result.ok();
-//    }
+    @ApiOperation(value = "医院解锁和锁定")
+    @PutMapping("/lockHospital/{id}/{status}")
+    public Result lockHospitalSet(@PathVariable long id,
+                                  @PathVariable Integer status) {
+        HospitalSet hospitalSet = hospitalSetService.getById(id);
+        hospitalSet.setStatus(status);
+        hospitalSetService.updateById(hospitalSet);
+        return Result.ok();
+    }
 
     /**
      * 签名秘钥发送
