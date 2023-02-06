@@ -68,28 +68,20 @@ public class HospitalSetController {
         return Result.ok(hospitalSetPage);
     }
 
-    /**
-     * 添加医院设置信息
-     *
-     * @param hospitalSet 医院信息
-     * @return
-     */
-//    @ApiOperation(value = "添加医院设置信息")
-//    @PostMapping("/saveHospitalSet")
-//    public Result saveHospitalSet(@RequestBody HospitalSet hospitalSet) {
-//        //设置状态 1 使用 0 不能使用
-//        hospitalSet.setStatus(1);
-//        //签名秘钥
-//        Random random = new Random();
-//        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
-//        //调用service
-//        boolean save = hospitalSetService.save(hospitalSet);
-//        if (save) {
-//            return Result.ok();
-//        } else {
-//            return Result.fail();
-//        }
-//    }
+    @ApiOperation(value = "添加医院信息")
+    @PostMapping("/saveHospitalSet")
+    public Result saveHospitalSet(@RequestBody HospitalSet hospitalSet) {
+        hospitalSet.setStatus(1);
+        Random random = new Random();
+        hospitalSet.setSignKey(MD5.encrypt(System.currentTimeMillis() + "" + random.nextInt(1000)));
+
+        boolean save = hospitalSetService.save(hospitalSet);
+        if (save) {
+            return Result.ok();
+        } else {
+            return Result.fail();
+        }
+    }
 
     /**
      * 根据id获取医院设置信息
