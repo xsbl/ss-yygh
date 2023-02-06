@@ -46,33 +46,27 @@ public class HospitalSetController {
         }
     }
 
-    /**
-     * 条件查询分页
-     *
-     * @param current            当前页
-     * @param limit              每页条数
-     * @param hospitalSetQueryVo 医院设置搜索实体类
-     * @return
-     */
-//    @ApiOperation(value = "条件查询医院信息")
-//    @PostMapping("/findPageHospitalSet/{current}/{limit}")
-//    public Result findPageHospitalSet(
-//            @PathVariable long current,
-//            @PathVariable long limit,
-//            @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
-//        Page<HospitalSet> page = new Page<>(current, limit);
-//        QueryWrapper<HospitalSet> queryWrapper = new QueryWrapper<>();
-//        String hosname = hospitalSetQueryVo.getHosname();
-//        String hoscode = hospitalSetQueryVo.getHoscode();
-//        if (!StringUtils.isEmpty(hosname)) {
-//            queryWrapper.like("hosname", hospitalSetQueryVo.getHosname());
-//        }
-//        if (!StringUtils.isEmpty(hoscode)) {
-//            queryWrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
-//        }
-//        Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, queryWrapper);
-//        return Result.ok(hospitalSetPage);
-//    }
+    @ApiOperation(value = "条件查询医院信息")
+    @PostMapping("/findPageHospitalSet/{current}/{limit}")
+    public Result findPageHospitalSet(
+            @PathVariable long current,
+            @PathVariable long limit,
+            @RequestBody(required = false) HospitalSetQueryVo hospitalSetQueryVo) {
+        Page<HospitalSet> page = new Page<>(current, limit);
+
+        QueryWrapper<HospitalSet> queryWrapper = new QueryWrapper<>();
+        String hosname = hospitalSetQueryVo.getHosname();
+        String hoscode = hospitalSetQueryVo.getHoscode();
+        if (!StringUtils.isEmpty(hosname)) {
+            queryWrapper.like("hosname", hospitalSetQueryVo.getHosname());
+        }
+        if (!StringUtils.isEmpty(hoscode)) {
+            queryWrapper.eq("hoscode", hospitalSetQueryVo.getHoscode());
+        }
+
+        Page<HospitalSet> hospitalSetPage = hospitalSetService.page(page, queryWrapper);
+        return Result.ok(hospitalSetPage);
+    }
 
     /**
      * 添加医院设置信息
