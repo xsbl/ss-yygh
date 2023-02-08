@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum ResultCodeEnum {
 
-    SUCCESS(200,"成功"),
+    SUCCESS(20000,"成功"),
     FAIL(201, "失败"),
     PARAM_ERROR( 202, "参数不正确"),
     SERVICE_ERROR(203, "服务异常"),
