@@ -26,7 +26,7 @@ public class UserController {
         Map<String,Object> map = new HashMap<>();
         map.put("roles",arr);
         map.put("introduction","I am administrator 斯盛.");
-        map.put("avatar","https://img2.baidu.com/it/u=2212383468,857153027&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500");
+        map.put("avatar","https://avatars.githubusercontent.com/u/43328304?s=40&v=4");
         map.put("name","Admin 斯盛");
         return Result.ok(map);
     }
