@@ -12,12 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
-/**
- * @author bobochang
- * @description
- * @created 2022/7/1-14:57
- **/
-
 @Api(tags = "数据字典管理")
 @RestController
 @RequestMapping("/admin/cmn/dict")
