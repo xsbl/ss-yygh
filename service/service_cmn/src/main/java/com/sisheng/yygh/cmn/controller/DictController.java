@@ -20,13 +20,7 @@ public class DictController {
     @Autowired
     private DictService dictService;
 
-    /**
-     * 根据数据id查询子数据列表
-     *
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "根据数据id查询子数据列表")
+    @ApiOperation(value = "根据id查询子元素列表")
     @GetMapping("/findChildData/{id}")
     public Result findChildData(@PathVariable Long id) {
         List<Dict> dictList = dictService.findChildData(id);

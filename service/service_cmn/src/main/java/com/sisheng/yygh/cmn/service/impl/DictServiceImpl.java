@@ -29,16 +29,14 @@ import java.util.List;
 public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements DictService {
 
     @Override
-    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
-    //根据数据id查询子数据列表
+//    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
+    //根据id查询子元素列表
     public List<Dict> findChildData(Long id) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("parent_id", id);
         List<Dict> dictList = baseMapper.selectList(queryWrapper);
         for (Dict dict : dictList) {
-            Long dictId = dict.getId();
-            boolean hasChild = this.hasChild(dictId);
-            dict.setHasChildren(hasChild);
+            dict.setHasChildren(hasChild(dict.getId()));
         }
         return dictList;
     }
