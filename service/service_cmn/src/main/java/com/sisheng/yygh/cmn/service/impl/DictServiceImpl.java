@@ -31,6 +31,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
     @Override
 //    @Cacheable(value = "dict", keyGenerator = "keyGenerator")
     //根据id查询子元素列表
+    @Cacheable(value = "dict")
     public List<Dict> findChildData(Long id) {
         QueryWrapper<Dict> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("parent_id", id);
