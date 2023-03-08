@@ -98,9 +98,9 @@ public class ApiServiceImpl implements ApiService {
         paramMap.put("sign", MD5.encrypt(this.getSignKey()));
 
         JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveHospital");
-        System.out.println(respone.toJSONString());
+        System.out.println(respone.toJSONString() + "哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈");
 
-        if(null != respone && 200 == respone.getIntValue("code")) {
+        if(null != respone && 20000 == respone.getIntValue("code")) {
             return true;
         } else {
             throw new YyghException(respone.getString("message"), 201);

@@ -1,58 +1,56 @@
-//package com.sisheng.yygh.hosp.service.impl;
-//
-//import com.alibaba.fastjson.JSONObject;
-//import com.sisheng.yygh.cmn.client.DictFeignClient;
-//import com.sisheng.yygh.hosp.repository.HospitalRepository;
-//import com.sisheng.yygh.hosp.service.HospitalService;
-//import com.sisheng.yygh.model.hosp.Hospital;
-//import com.sisheng.yygh.vo.hosp.HospitalQueryVo;
-//import org.springframework.beans.BeanUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.*;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.Date;
-//import java.util.HashMap;
-//import java.util.List;
-//import java.util.Map;
-//
-///**
-// * @author bobochang
-// * @description
-// * @created 2022/7/2-14:16
-// **/
-//@Service
-//public class HospitalServiceImpl implements HospitalService {
-//
-//    @Autowired
-//    private HospitalRepository hospitalRepository;
-//
+package com.sisheng.yygh.hosp.service.impl;
+
+import com.alibaba.fastjson.JSONObject;
+import com.sisheng.yygh.cmn.client.DictFeignClient;
+import com.sisheng.yygh.hosp.repository.HospitalRepository;
+import com.sisheng.yygh.hosp.service.HospitalService;
+import com.sisheng.yygh.model.hosp.Hospital;
+import com.sisheng.yygh.vo.hosp.HospitalQueryVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @author bobochang
+ * @description
+ * @created 2022/7/2-14:16
+ **/
+@Service
+public class HospitalServiceImpl implements HospitalService {
+
+    @Autowired
+    private HospitalRepository hospitalRepository;
+
 //    @Autowired
 //    private DictFeignClient dictFeignClient;
-//
-//    @Override
-//    public void saveHospital(Map<String, Object> paramMap) {
-//        //将map转换为字符串进而转换为hospital对象
-//        String mapString = JSONObject.toJSONString(paramMap);
-//        Hospital hospital = JSONObject.parseObject(mapString, Hospital.class);
-//        //判断当前hospital是否存在hoscode
-//        String hoscode = hospital.getHoscode();
-//        Hospital hospitalExist = hospitalRepository.getHospitalByHoscode(hoscode);
-//        if (hospitalExist != null) {
-//            hospital.setId(hospital.getId());
-//            hospital.setStatus(hospital.getStatus());
-//            hospital.setCreateTime(hospital.getCreateTime());
-//            hospital.setUpdateTime(new Date());
-//            hospital.setIsDeleted(0);
-//        } else {
-//            hospital.setStatus(0);
-//            hospital.setCreateTime(new Date());
-//            hospital.setUpdateTime(new Date());
-//            hospital.setIsDeleted(0);
-//            hospitalRepository.save(hospital);
-//        }
-//    }
-//
+
+    @Override
+    public void saveHospital(Map<String, Object> paramMap) {
+        Hospital hospital = JSONObject.parseObject(JSONObject.toJSONString(paramMap), Hospital.class);
+
+        String hoscode = hospital.getHoscode();
+        Hospital hospitalExist = hospitalRepository.getHospitalByHoscode(hoscode);
+        if (hospitalExist != null) {
+            hospital.setId(hospitalExist.getId());
+            hospital.setStatus(hospitalExist.getStatus());
+            hospital.setCreateTime(hospitalExist.getCreateTime());
+            hospital.setUpdateTime(new Date());
+            hospital.setIsDeleted(hospitalExist.getIsDeleted());
+        } else {
+            hospital.setStatus(0);
+            hospital.setCreateTime(new Date());
+            hospital.setUpdateTime(new Date());
+            hospital.setIsDeleted(0);
+        }
+        hospitalRepository.save(hospital);
+    }
+
 //    @Override
 //    public Hospital showHospitalByHoscode(String hoscode) {
 //        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
@@ -139,4 +137,4 @@
 //        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
 //        return hospital;
 //    }
-//}
+}
