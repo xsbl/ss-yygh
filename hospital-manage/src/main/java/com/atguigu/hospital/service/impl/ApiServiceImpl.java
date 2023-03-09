@@ -157,7 +157,7 @@ public class ApiServiceImpl implements ApiService {
             JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveDepartment");
             System.out.println(respone.toJSONString());
 
-            if(null == respone || 200 != respone.getIntValue("code")) {
+            if(null == respone || 20000 != respone.getIntValue("code")) {
                 throw new YyghException(respone.getString("message"), 201);
             }
         }

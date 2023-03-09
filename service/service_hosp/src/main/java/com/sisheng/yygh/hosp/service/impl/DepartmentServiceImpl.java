@@ -1,33 +1,27 @@
-//package com.sisheng.yygh.hosp.service.impl;
-//
-//import com.alibaba.fastjson.JSON;
-//import com.alibaba.fastjson.JSONObject;
-//import com.sisheng.yygh.hosp.repository.DepartmentRepository;
-//import com.sisheng.yygh.hosp.service.DepartmentService;
-//import com.sisheng.yygh.model.hosp.Department;
-//import com.sisheng.yygh.vo.hosp.DepartmentQueryVo;
-//import com.sisheng.yygh.vo.hosp.DepartmentVo;
-//import org.springframework.beans.BeanUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.domain.*;
-//import org.springframework.stereotype.Service;
-//
-//import java.util.ArrayList;
-//import java.util.Date;
-//import java.util.List;
-//import java.util.Map;
-//import java.util.stream.Collectors;
-//
-///**
-// * @author bobochang
-// * @description
-// * @created 2022/7/2-17:52
-// **/
-//@Service
-//public class DepartmentServiceImpl implements DepartmentService {
-//
-//    @Autowired
-//    private DepartmentRepository departmentRepository;
+package com.sisheng.yygh.hosp.service.impl;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.sisheng.yygh.hosp.repository.DepartmentRepository;
+import com.sisheng.yygh.hosp.service.DepartmentService;
+import com.sisheng.yygh.model.hosp.Department;
+import com.sisheng.yygh.vo.hosp.DepartmentQueryVo;
+import com.sisheng.yygh.vo.hosp.DepartmentVo;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+@Service
+public class DepartmentServiceImpl implements DepartmentService {
+    @Autowired
+    private DepartmentRepository departmentRepository;
 //
 ////    @Override
 ////    public void saveDepartment(Map<String, Object> paramMap) {
@@ -132,8 +126,24 @@
 ////
 ////    }
 //
-//    @Override
-//    public Department getDepartment(String hoscode, String depcode) {
-//        return departmentRepository.getDepartmentByHoscodeAndDepcode(hoscode, depcode);
-//    }
-//}
+    @Override
+    public Department saveDepartment(Map<String, Object> map) {
+        Department department = JSONObject.parseObject(JSONObject.toJSONString(map), Department.class);
+        String hoscode = department.getHoscode();
+        String depcode = department.getDepcode();
+        Department platformHospital = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
+        if (platformHospital == null) {
+            department.setCreateTime(new Date());
+            department.setUpdateTime(new Date());
+            department.setIsDeleted(0);
+            departmentRepository.save(department);
+        }else {
+            department.setCreateTime(platformHospital.getCreateTime());
+            department.setUpdateTime(new Date());
+            department.setIsDeleted(platformHospital.getIsDeleted());
+            department.setId(platformHospital.getId());
+            departmentRepository.save(department);
+        }
+        return null;
+    }
+}
