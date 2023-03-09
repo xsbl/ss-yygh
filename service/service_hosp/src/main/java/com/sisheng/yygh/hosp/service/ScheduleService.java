@@ -15,7 +15,7 @@ public interface ScheduleService {
 //
 //    void remove(String hoscode, String hosScheduleId);
 //
-//    Map<String, Object> findScheduleRule(long page, long limit, String hoscode, String depcode);
+        Page<Schedule> getSchedulePage(Map<String, Object> map);
 //
 //    List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
 //

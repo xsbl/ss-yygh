@@ -7,6 +7,7 @@ import com.sisheng.yygh.model.hosp.Schedule;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,5 +26,12 @@ public class ScheduleController {
         Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
         scheduleService.save(map);
         return Result.ok();
+    }
+
+    @PostMapping("/schedule/list")
+    public Result<Page> getSchedulePage(HttpServletRequest request) {
+        Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
+        Page<Schedule> page = scheduleService.getSchedulePage(map);
+        return Result.ok(page);
     }
 }

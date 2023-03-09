@@ -64,6 +64,22 @@ public class ScheduleServiceImpl implements ScheduleService {
         schedule.setUpdateTime(new Date());
         scheduleRepository.save(schedule);
     }
+
+    @Override
+    public Page<Schedule> getSchedulePage(Map<String, Object> map) {
+        Schedule schedule = new Schedule();
+        String hoscode = (String) map.get("hoscode");
+        schedule.setHoscode(hoscode);
+        Example<Schedule> example = Example.of(schedule);
+
+        Integer page = Integer.parseInt((String) map.get("page"));
+        Integer limit = Integer.parseInt((String) map.get("limit"));
+        PageRequest pageRequest = PageRequest.of(page - 1, limit, Sort.by("createTime").ascending());
+
+        Page<Schedule> all = scheduleRepository.findAll(example, pageRequest);
+
+        return all;
+    }
 //
 //    @Override
 //    public Page<Schedule> findSchedule(int page, int limit, ScheduleQueryVo scheduleQueryVo) {
