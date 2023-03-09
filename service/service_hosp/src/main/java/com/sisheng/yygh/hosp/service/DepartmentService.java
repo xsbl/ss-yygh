@@ -22,4 +22,6 @@ public interface DepartmentService {
 //    String getDepName(String hoscode, String depcode);
 
     Department saveDepartment(Map<String, Object> map);
+
+    Page<Department> getDepartmentPage(Map<String, Object> map);
 }

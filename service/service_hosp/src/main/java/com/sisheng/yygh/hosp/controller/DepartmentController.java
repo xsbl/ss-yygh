@@ -3,10 +3,12 @@ package com.sisheng.yygh.hosp.controller;
 import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.hosp.service.DepartmentService;
 import com.sisheng.yygh.hosp.utils.HttpRequestHelper;
+import com.sisheng.yygh.model.hosp.Department;
 import com.sisheng.yygh.vo.hosp.DepartmentVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +32,11 @@ public class DepartmentController {
         return Result.ok();
     }
 
-//    @GetMapping("getDepartLIst/{hoscode}")
-//    public Result getDepartList(@PathVariable String hoscode){
-//        List<DepartmentVo> departmentVoList = departmentService.findDeptTree(hoscode);
-//        return Result.ok(departmentVoList);
-//    }
+    @PostMapping("/department/list")
+    public Result<Page> getDepartmentPage(HttpServletRequest request) {
+        Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
+        Page<Department> page = departmentService.getDepartmentPage(map);
+        return Result.ok(page);
+    }
+
 }

@@ -116,10 +116,12 @@ public class ApiServiceImpl implements ApiService {
         //paramMap.put("depcode",depcode);
         paramMap.put("page",pageNum);
         paramMap.put("limit",pageSize);
+
         paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
         paramMap.put("sign", MD5.encrypt(this.getSignKey()));
+
         JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/department/list");
-        if(null != respone && 200 == respone.getIntValue("code")) {
+        if(null != respone && 20000 == respone.getIntValue("code")) {
             JSONObject jsonObject = respone.getJSONObject("data");
 
             result.put("total", jsonObject.getLong("totalElements"));

@@ -22,45 +22,8 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
-//
-////    @Override
-////    public void saveDepartment(Map<String, Object> paramMap) {
-////        //将paramMap转换为Department对象
-////        Department department = JSONObject.parseObject(JSON.toJSONString(paramMap), Department.class);
-////        Department departmentExist = departmentRepository.getDepartmentByHoscodeAndDepcode(department.getHoscode(), department.getDepcode());
-////
-////        if (departmentExist != null) {
-////            departmentExist.setHoscode(departmentExist.getHoscode());
-////            departmentExist.setDepcode(departmentExist.getDepcode());
-////            departmentExist.setUpdateTime(new Date());
-////            departmentExist.setIsDeleted(0);
-////            departmentRepository.save(departmentExist);
-////        } else {
-////            department.setHoscode(department.getHoscode());
-////            department.setDepcode(department.getDepcode());
-////            department.setCreateTime(new Date());
-////            department.setUpdateTime(new Date());
-////            department.setIsDeleted(0);
-////            departmentRepository.save(department);
-////        }
-////    }
-//
-////    @Override
-////    public Page<Department> findDepartment(int page, int limit, DepartmentQueryVo departmentQueryVo) {
-////        //创建Pageable对象 设置页数和每页记录数
-////        Pageable pageable = PageRequest.of(page - 1, limit);
-////        //构建Department对象
-////        Department department = new Department();
-////        BeanUtils.copyProperties(departmentQueryVo, department);
-////        department.setIsDeleted(0);
-////        //创建Example对象
-////        ExampleMatcher matcher = ExampleMatcher.matching()
-////                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-////                .withIgnoreCase(true);
-////        Example<Department> example = Example.of(department, matcher);
-////        Page<Department> pageInfo = departmentRepository.findAll(example, pageable);
-////        return pageInfo;
-////    }
+
+
 //
 ////    @Override
 ////    public void remove(String hoscode, String depcode) {
@@ -145,5 +108,20 @@ public class DepartmentServiceImpl implements DepartmentService {
             departmentRepository.save(department);
         }
         return null;
+    }
+
+    @Override
+    public Page<Department> getDepartmentPage(Map<String, Object> map) {
+        Integer page = Integer.parseInt((String) map.get("page"));
+        Integer limit = Integer.parseInt((String) map.get("limit"));
+        String hoscode = (String) map.get("hoscode");
+
+        Department department = new Department();
+        department.setHoscode(hoscode);
+        Example<Department> example = Example.of(department);
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Department> all = departmentRepository.findAll(example, pageable);
+
+        return all;
     }
 }
