@@ -262,8 +262,8 @@ public class ApiServiceImpl implements ApiService {
             paramMap.put("sign",MD5.encrypt(this.getSignKey()));
 
             JSONObject respone = HttpRequestHelper.sendRequest(paramMap,this.getApiUrl()+"/api/hosp/saveSchedule");
-            System.out.println(respone.toJSONString());
-            if(null == respone || 200 != respone.getIntValue("code")) {
+
+            if(null == respone || 20000 != respone.getIntValue("code")) {
                 throw new YyghException(respone.getString("message"), 201);
             }
         }
