@@ -39,4 +39,11 @@ public class DepartmentController {
         return Result.ok(page);
     }
 
+    @PostMapping("/department/remove")
+    public Result remove(HttpServletRequest request) {
+        Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
+        departmentService.remove(map);
+        return Result.ok();
+    }
+
 }

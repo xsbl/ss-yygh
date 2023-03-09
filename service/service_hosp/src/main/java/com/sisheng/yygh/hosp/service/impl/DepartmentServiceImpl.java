@@ -24,15 +24,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRepository departmentRepository;
 
 
-//
-////    @Override
-////    public void remove(String hoscode, String depcode) {
-////        Department departmentExist = departmentRepository.getDepartmentByHoscodeAndDepcode(hoscode, depcode);
-////        if (departmentExist != null) {
-////            departmentRepository.deleteById(departmentExist.getId());
-////        }
-////    }
-//
+
+    @Override
+    public void remove(Map<String, Object> map) {
+        String hoscode = (String) map.get("hoscode");
+        String depcode = (String) map.get("depcode");
+
+        Department department = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
+
+        if (department != null) {
+            departmentRepository.deleteById(department.getId());
+        }
+    }
+
 ////    @Override
 ////    public List<DepartmentVo> findDeptTree(String hoscode) {
 ////
