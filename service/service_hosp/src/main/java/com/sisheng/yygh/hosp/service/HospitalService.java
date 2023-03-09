@@ -18,6 +18,8 @@ public interface HospitalService {
     //上传医院接口
     void saveHospital(Map<String, Object> paramMap);
 
+    Hospital getHospitalByHoscode(String hoscode);
+
 //    Hospital showHospitalByHoscode(String hoscode);
 //
 //    Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);

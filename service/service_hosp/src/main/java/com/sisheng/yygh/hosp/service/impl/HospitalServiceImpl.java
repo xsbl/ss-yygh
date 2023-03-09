@@ -51,12 +51,12 @@ public class HospitalServiceImpl implements HospitalService {
         hospitalRepository.save(hospital);
     }
 
-//    @Override
-//    public Hospital showHospitalByHoscode(String hoscode) {
-//        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
-//        return hospital;
-//    }
-//
+    @Override
+    public Hospital getHospitalByHoscode(String hoscode) {
+        return hospitalRepository.getHospitalByHoscode(hoscode);
+    }
+
+
 //    @Override
 //    public Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
 //        //创建Pageable对象

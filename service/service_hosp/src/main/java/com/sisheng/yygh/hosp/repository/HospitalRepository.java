@@ -12,4 +12,5 @@ public interface HospitalRepository extends MongoRepository<Hospital,String> {
 
     //根据医院名称模糊查询
     List<Hospital> findHospitalByHosnameLike(String hosname);
+
 }
