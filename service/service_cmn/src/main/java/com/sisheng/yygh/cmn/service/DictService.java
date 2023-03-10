@@ -23,7 +23,7 @@ public interface DictService extends IService<Dict> {
     //导入数据字典表
     void importDictData(MultipartFile file);
 
-    String getName(String dictCode, String value);
+    String getName(String dictCode, Long value);
 
     List<Dict> findByDictCode(String dictCode);
 }
