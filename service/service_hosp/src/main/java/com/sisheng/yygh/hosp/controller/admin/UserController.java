@@ -1,4 +1,4 @@
-package com.sisheng.yygh.hosp.controller;
+package com.sisheng.yygh.hosp.controller.admin;
 
 import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.model.acl.User;

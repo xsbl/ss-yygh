@@ -1,4 +1,4 @@
-package com.sisheng.yygh.hosp.controller;
+package com.sisheng.yygh.hosp.controller.api;
 
 import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.hosp.service.HospitalService;

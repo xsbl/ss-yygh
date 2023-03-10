@@ -1,4 +1,4 @@
-package com.sisheng.yygh.hosp.controller;
+package com.sisheng.yygh.hosp.controller.admin;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;

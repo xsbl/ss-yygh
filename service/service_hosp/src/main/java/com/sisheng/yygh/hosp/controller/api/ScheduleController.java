@@ -1,10 +1,9 @@
-package com.sisheng.yygh.hosp.controller;
+package com.sisheng.yygh.hosp.controller.api;
 
 import com.sisheng.yygh.common.result.Result;
-import com.sisheng.yygh.hosp.service.DepartmentService;
+import com.sisheng.yygh.hosp.service.ScheduleService;
 import com.sisheng.yygh.hosp.utils.HttpRequestHelper;
-import com.sisheng.yygh.model.hosp.Department;
-import com.sisheng.yygh.vo.hosp.DepartmentVo;
+import com.sisheng.yygh.model.hosp.Schedule;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,35 +14,31 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
-
-
 @RestController
 @RequestMapping("/api/hosp")
-public class DepartmentController {
+public class ScheduleController {
 
     @Autowired
-    private DepartmentService departmentService;
+    private ScheduleService scheduleService;
 
-
-    @PostMapping("/saveDepartment")
-    public Result saveDepartment(HttpServletRequest request) {
+    @PostMapping("/saveSchedule")
+    public Result saveSchedule(HttpServletRequest request) {
         Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
-        departmentService.saveDepartment(map);
+        scheduleService.save(map);
         return Result.ok();
     }
 
-    @PostMapping("/department/list")
-    public Result<Page> getDepartmentPage(HttpServletRequest request) {
+    @PostMapping("/schedule/list")
+    public Result<Page> getSchedulePage(HttpServletRequest request) {
         Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
-        Page<Department> page = departmentService.getDepartmentPage(map);
+        Page<Schedule> page = scheduleService.getSchedulePage(map);
         return Result.ok(page);
     }
 
-    @PostMapping("/department/remove")
+    @PostMapping("/schedule/remove")
     public Result remove(HttpServletRequest request) {
         Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
-        departmentService.remove(map);
+        scheduleService.remove(map);
         return Result.ok();
     }
-
 }

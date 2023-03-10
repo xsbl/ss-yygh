@@ -57,29 +57,27 @@ public class HospitalServiceImpl implements HospitalService {
     }
 
 
-//    @Override
-//    public Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
-//        //创建Pageable对象
-//        Pageable pageable = PageRequest.of(page - 1, limit);
-//
-//        //将hospitalQueryVo对象转换为Hospital对象
-//        Hospital hospital = new Hospital();
-//        BeanUtils.copyProperties(hospitalQueryVo, hospital);
-//
-//        //构建模糊查询
-//        ExampleMatcher matcher = ExampleMatcher.matching()
-//                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
-//                .withIgnoreCase(true);
-//        Example<Hospital> example = Example.of(hospital, matcher);
-//        Page<Hospital> pageInfo = hospitalRepository.findAll(example, pageable);
-//
-//        //以流方式将Hospital对象中加入医院等级并进行封装
-//        pageInfo.getContent().stream().forEach(item -> {
-//            this.setHospitalHosType(item);
-//        });
-//        return pageInfo;
-//    }
-//
+    @Override
+    public Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo) {
+
+        Hospital hospital = new Hospital();
+        BeanUtils.copyProperties(hospitalQueryVo, hospital);
+        ExampleMatcher matcher = ExampleMatcher.matching()
+//                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)  // 所有字段都模糊查询
+                .withMatcher("hosname",ExampleMatcher.GenericPropertyMatchers.contains())  // hosname字段模糊查询
+                .withIgnoreCase(true);
+        Example<Hospital> example = Example.of(hospital, matcher);
+
+        Pageable pageable = PageRequest.of(page - 1, limit);
+
+        Page<Hospital> pageInfo = hospitalRepository.findAll(example, pageable);
+
+        pageInfo.getContent().stream().forEach(item -> {
+            this.setHospitalHosType(item);
+        });
+        return pageInfo;
+    }
+
 //    @Override
 //    public void updateStatus(String id, Integer status) {
 //        Hospital hospital = hospitalRepository.findById(id).get();
@@ -127,7 +125,7 @@ public class HospitalServiceImpl implements HospitalService {
 //        return result;
 //    }
 //
-//    private Hospital setHospitalHosType(Hospital hospital) {
+    private Hospital setHospitalHosType(Hospital hospital) {
 //        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
 //        String provinceString = dictFeignClient.getName(hospital.getProvinceCode());
 //        String cityString = dictFeignClient.getName(hospital.getCityCode());
@@ -135,6 +133,6 @@ public class HospitalServiceImpl implements HospitalService {
 //
 //        hospital.getParam().put("hostypeString", hostypeString);
 //        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
-//        return hospital;
-//    }
+        return hospital;
+    }
 }

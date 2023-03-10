@@ -22,7 +22,7 @@ public interface HospitalService {
 
 //    Hospital showHospitalByHoscode(String hoscode);
 //
-//    Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
+    Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
 //
 //    void updateStatus(String id, Integer status);
 //
