@@ -12,10 +12,9 @@ public interface ScheduleService {
     void save(Map<String, Object> paramMap);
 
 //    Page<Schedule> findSchedule(int page, int limit, ScheduleQueryVo scheduleQueryVo);
-//
-//    void remove(String hoscode, String hosScheduleId);
-//
         Page<Schedule> getSchedulePage(Map<String, Object> map);
+
+    void remove(Map<String, Object> map);
 //
 //    List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
 //

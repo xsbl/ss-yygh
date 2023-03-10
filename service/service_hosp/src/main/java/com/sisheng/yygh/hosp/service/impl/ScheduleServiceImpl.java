@@ -101,13 +101,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 //        Page<Schedule> pageInfo = scheduleRepository.findAll(example, pageable);
 //        return pageInfo;
 //    }
-//    @Override
-//    public void remove(String hoscode, String hosScheduleId) {
-//        Schedule scheduleExist = scheduleRepository.getScheduleByHoscodeAndHosScheduleId(hoscode, hosScheduleId);
-//        if (scheduleExist != null) {
-//            scheduleRepository.deleteById(scheduleExist.getId());
-//        }
-//    }
+    @Override
+    public void remove(Map<String, Object> map) {
+        String hoscode = (String) map.get("hoscode");
+        String hosScheduleId = (String) map.get("hosScheduleId");
+        Schedule scheduleExist = scheduleRepository.getScheduleByHoscodeAndHosScheduleId(hoscode, hosScheduleId);
+        if (scheduleExist != null) {
+            scheduleRepository.deleteById(scheduleExist.getId());
+        }
+    }
 
 //    @Override
 //    public Map<String, Object> findScheduleRule(long page, long limit, String hoscode, String depcode) {

@@ -34,4 +34,11 @@ public class ScheduleController {
         Page<Schedule> page = scheduleService.getSchedulePage(map);
         return Result.ok(page);
     }
+
+    @PostMapping("/schedule/remove")
+    public Result remove(HttpServletRequest request) {
+        Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
+        scheduleService.remove(map);
+        return Result.ok();
+    }
 }
