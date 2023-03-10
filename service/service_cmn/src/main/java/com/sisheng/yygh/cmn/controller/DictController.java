@@ -53,14 +53,14 @@ public class DictController {
     @ApiOperation(value = "查询医院等级名称(含字典编号)")
     @GetMapping("/getName/{dictCode}/{value}")
     public String getName(@PathVariable("dictCode") String dictCode,
-                          @PathVariable("value") Long value) {
+                          @PathVariable("value") String value) {
         String level = dictService.getName(dictCode, value);
         return level;
     }
 
     @ApiOperation(value = "查询医院等级名称(不含字典编号)")
     @GetMapping("/getName/{value}")
-    public String getName(@PathVariable("value") Long value) {
+    public String getName(@PathVariable("value") String value) {
         String level = dictService.getName("", value);
         return level;
     }

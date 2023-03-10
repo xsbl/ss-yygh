@@ -27,8 +27,8 @@ public class HospitalServiceImpl implements HospitalService {
     @Autowired
     private HospitalRepository hospitalRepository;
 
-//    @Autowired
-//    private DictFeignClient dictFeignClient;
+    @Autowired
+    private DictFeignClient dictFeignClient;
 
     @Override
     public void saveHospital(Map<String, Object> paramMap) {
@@ -75,7 +75,18 @@ public class HospitalServiceImpl implements HospitalService {
         pageInfo.getContent().stream().forEach(item -> {
             this.setHospitalHosType(item);
         });
+
         return pageInfo;
+    }
+
+    private void setHospitalHosType(Hospital hospital) {
+        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
+        String provinceString = dictFeignClient.getName(hospital.getProvinceCode());
+        String cityString = dictFeignClient.getName(hospital.getCityCode());
+        String districtString = dictFeignClient.getName(hospital.getDistrictCode());
+
+        hospital.getParam().put("hostypeString", hostypeString);
+        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
     }
 
 //    @Override
@@ -124,15 +135,6 @@ public class HospitalServiceImpl implements HospitalService {
 //        hospital.setBookingRule(null);
 //        return result;
 //    }
-//
-    private Hospital setHospitalHosType(Hospital hospital) {
-//        String hostypeString = dictFeignClient.getName("Hostype", hospital.getHostype());
-//        String provinceString = dictFeignClient.getName(hospital.getProvinceCode());
-//        String cityString = dictFeignClient.getName(hospital.getCityCode());
-//        String districtString = dictFeignClient.getName(hospital.getDistrictCode());
-//
-//        hospital.getParam().put("hostypeString", hostypeString);
-//        hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
-        return hospital;
-    }
+
+
 }
