@@ -25,6 +25,8 @@ public interface HospitalService {
     Page<Hospital> list(Integer page, Integer limit, HospitalQueryVo hospitalQueryVo);
 
     void updateHospStatus(String id, Integer status);
+
+    Hospital detail(String id);
 //
 //    void updateStatus(String id, Integer status);
 //

@@ -33,4 +33,10 @@ public class AdminHospitalController {
         return Result.ok();
     }
 
+    @GetMapping("/detail/{id}")
+    public Result detail(@PathVariable String id) {
+        Hospital hospital = hospitalService.detail(id);
+        return Result.ok(hospital);
+    }
+
 }

@@ -99,17 +99,14 @@ public class HospitalServiceImpl implements HospitalService {
         }
     }
 
-//    @Override
-//    public Map<String, Object> getHospDetailById(String id) {
-//        Map<String, Object> result = new HashMap<>();
-//        Hospital hospital = this.setHospitalHosType(hospitalRepository.findById(id).get());
-//        result.put("hospital", hospital);
-//        result.put("bookingRule", hospital.getBookingRule());
-//        //避免重复返回
-//        hospital.setBookingRule(null);
-//        return result;
-//    }
-//
+    @Override
+    public Hospital detail(String id) {
+        Hospital hospital = hospitalRepository.findById(id).get();
+        //得到省市区和医院等级的文字
+        this.setHospitalHosType(hospital);
+        return hospital;
+    }
+
 //    @Override
 //    public String getHospName(String hoscode) {
 //        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
