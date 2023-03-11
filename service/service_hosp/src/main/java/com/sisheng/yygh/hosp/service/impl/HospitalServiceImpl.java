@@ -89,14 +89,16 @@ public class HospitalServiceImpl implements HospitalService {
         hospital.getParam().put("fullAddress", provinceString + cityString + districtString);
     }
 
-//    @Override
-//    public void updateStatus(String id, Integer status) {
-//        Hospital hospital = hospitalRepository.findById(id).get();
-//        hospital.setStatus(status);
-//        hospital.setUpdateTime(new Date());
-//        hospitalRepository.save(hospital);
-//    }
-//
+    @Override
+    public void updateHospStatus(String id, Integer status) {
+        if(status == 0 || status == 1) {
+            Hospital hospital = hospitalRepository.findById(id).get();
+            hospital.setStatus(status);
+            hospital.setUpdateTime(new Date());
+            hospitalRepository.save(hospital);
+        }
+    }
+
 //    @Override
 //    public Map<String, Object> getHospDetailById(String id) {
 //        Map<String, Object> result = new HashMap<>();

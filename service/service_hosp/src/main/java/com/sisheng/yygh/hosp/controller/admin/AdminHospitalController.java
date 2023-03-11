@@ -27,4 +27,10 @@ public class AdminHospitalController {
         return Result.ok(page);
     }
 
+    @GetMapping("/{id}/{status}")
+    public Result updateHospStatus(@PathVariable String id, @PathVariable Integer status) {
+        hospitalService.updateHospStatus(id, status);
+        return Result.ok();
+    }
+
 }
