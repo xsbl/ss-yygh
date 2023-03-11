@@ -21,6 +21,9 @@ public class HospitalController {
     @PostMapping("/saveHospital")
     public Result saveHospital(HttpServletRequest request) {
         Map<String, Object> map = HttpRequestHelper.switchMap(request.getParameterMap());
+        String logoData = (String) map.get("logoData");
+        String result = logoData.replaceAll(" ", "+");
+        map.put("logoData", result);
         hospitalService.saveHospital(map);
         return Result.ok();
     }
