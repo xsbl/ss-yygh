@@ -18,8 +18,11 @@ public class CorsConfig {
     @Bean
     public CorsWebFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
+        //允许所有的请求方法：GET POST PUT DELETE
         config.addAllowedMethod("*");
+        //允许所有的IP
         config.addAllowedOrigin("*");
+        //允许携带任意的请求头信息
         config.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource(new PathPatternParser());
