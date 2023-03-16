@@ -36,14 +36,14 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
-        System.out.println("===" + path);
+
+        //主要就是判断当前路径要去哪里以及有没有token
 
         //内部服务接口，不允许外部访问
         if (antPathMatcher.match("/**/inner/**", path)) {
             ServerHttpResponse response = exchange.getResponse();
             return out(response, ResultCodeEnum.PERMISSION);
         }
-
 
         //api接口，异步请求，校验用户必须登录
         if (antPathMatcher.match("/api/**/auth/**", path)) {
@@ -61,12 +61,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         return 0;
     }
 
-    /**
-     * api接口鉴权失败返回数据
-     *
-     * @param response
-     * @return
-     */
+    //可以返回对于的错误码和错误信息，至于页面的跳转可以交给前端来判断
     private Mono<Void> out(ServerHttpResponse response, ResultCodeEnum resultCodeEnum) {
         Result result = Result.build(null, resultCodeEnum);
         byte[] bits = JSONObject.toJSONString(result).getBytes(StandardCharsets.UTF_8);
