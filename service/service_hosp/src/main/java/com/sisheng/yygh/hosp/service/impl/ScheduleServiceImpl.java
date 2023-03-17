@@ -111,56 +111,57 @@ public class ScheduleServiceImpl implements ScheduleService {
         }
     }
 
-//    @Override
-//    public Map<String, Object> findScheduleRule(long page, long limit, String hoscode, String depcode) {
-//        //1 根据医院编号 和 科室编号进行查询
-//        Criteria criteria = Criteria.where("hoscode").is(hoscode).and("depcode").is(depcode);
-//        //2 根据工作日期workDate进行分组
-//        Aggregation aggregation = Aggregation.newAggregation(
-//                Aggregation.match(criteria),//匹配字段
-//                Aggregation.group("workDate")//分组字段
-//                        //别名
-//                        .first("workDate").as("workDate")
-//                        //3 统计可预约数量/全部预约数量
-//                        .count().as("docCount")
-//                        .sum("reservedNumber").as("reservedNumber")
-//                        .sum("availableNumber").as("availableNumber"),
-//                Aggregation.sort(Sort.Direction.ASC, "workDate"),
-//                //4 实现分页
-//                Aggregation.skip((page - 1) * limit),
-//                Aggregation.limit(limit)
-//        );
-//        AggregationResults<BookingScheduleRuleVo> aggregate = mongoTemplate.aggregate(aggregation, Schedule.class, BookingScheduleRuleVo.class);
-//        List<BookingScheduleRuleVo> bookingScheduleRuleVoList = aggregate.getMappedResults();
-//
-//        //获得分页查询的总记录数
-//        Aggregation totalAggregation = Aggregation.newAggregation(
-//                Aggregation.match(criteria),
-//                Aggregation.group("workDate")
-//        );
-//        AggregationResults<BookingScheduleRuleVo> totalAggregate = mongoTemplate.aggregate(totalAggregation, Schedule.class, BookingScheduleRuleVo.class);
-//        int total = totalAggregate.getMappedResults().size();
-//
-//        //将日期转换成周几
-//        for (BookingScheduleRuleVo bookingScheduleRuleVo : bookingScheduleRuleVoList) {
-//            Date workDate = bookingScheduleRuleVo.getWorkDate();
-//            String dayOfWeek = this.getDayOfWeek(new DateTime(workDate));
-//            bookingScheduleRuleVo.setDayOfWeek(dayOfWeek);
-//        }
-//
-//        //封装结果返回
-//        Map<String, Object> result = new HashMap<>();
-//        result.put("bookingScheduleRuleList", bookingScheduleRuleVoList);
-//        result.put("total", total);
-//
-//        //获取医院名称
-//        String hospName = hospitalService.getHospName(hoscode);
-//        HashMap<String, String> baseMap = new HashMap<>();
-//        baseMap.put("hosname", hospName);
-//        result.put("baseMap", baseMap);
-//
-//        return result;
-//    }
+    @Override
+    public Map<String, Object> findScheduleRule(int page, int limit, String hoscode, String depcode) {
+        //1 根据医院编号 和 科室编号进行查询
+        Criteria criteria = Criteria.where("hoscode").is(hoscode).and("depcode").is(depcode);
+        //2 根据工作日期workDate进行分组
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.match(criteria),//匹配字段
+                Aggregation.group("workDate")//分组字段
+                        //别名
+                        .first("workDate").as("workDate")
+                        //3 统计可预约数量/全部预约数量
+                        .count().as("docCount")
+                        .sum("reservedNumber").as("reservedNumber")
+                        .sum("availableNumber").as("availableNumber"),
+                Aggregation.sort(Sort.Direction.ASC, "workDate"),
+                //4 实现分页
+                Aggregation.skip((page - 1) * limit),
+                Aggregation.limit(limit)
+        );
+        AggregationResults<BookingScheduleRuleVo> aggregate = mongoTemplate.aggregate(aggregation, Schedule.class, BookingScheduleRuleVo.class);
+        List<BookingScheduleRuleVo> bookingScheduleRuleVoList = aggregate.getMappedResults();
+
+        //获得分页查询的总记录数
+        Aggregation totalAggregation = Aggregation.newAggregation(
+                Aggregation.match(criteria),
+                Aggregation.group("workDate")
+        );
+        AggregationResults<BookingScheduleRuleVo> totalAggregate = mongoTemplate.aggregate(totalAggregation, Schedule.class, BookingScheduleRuleVo.class);
+        int total = totalAggregate.getMappedResults().size();
+
+        //将日期转换成周几
+        for (BookingScheduleRuleVo bookingScheduleRuleVo : bookingScheduleRuleVoList) {
+            Date workDate = bookingScheduleRuleVo.getWorkDate();
+            String dayOfWeek = this.getDayOfWeek(new DateTime(workDate));
+            bookingScheduleRuleVo.setDayOfWeek(dayOfWeek);
+        }
+
+        //封装结果返回
+        Map<String, Object> result = new HashMap<>();
+        result.put("bookingScheduleRuleList", bookingScheduleRuleVoList);
+        result.put("total", total);
+
+        //获取医院名称
+        String hospName = hospitalService.getHospName(hoscode);
+        HashMap<String, String> baseMap = new HashMap<>();
+        baseMap.put("hosname", hospName);
+
+        result.put("baseMap", baseMap);
+
+        return result;
+    }
 
 //    @Override
 //    public List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate) {

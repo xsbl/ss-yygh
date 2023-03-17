@@ -107,16 +107,16 @@ public class HospitalServiceImpl implements HospitalService {
         return hospital;
     }
 
-//    @Override
-//    public String getHospName(String hoscode) {
-//        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
-//        String hosname = hospital.getHosname();
-//        if (hosname != null) {
-//            return hosname;
-//        }
-//        return null;
-//    }
-//
+    @Override
+    public String getHospName(String hoscode) {
+        Hospital hospital = hospitalRepository.getHospitalByHoscode(hoscode);
+        String hosname = hospital.getHosname();
+        if (hosname != null) {
+            return hosname;
+        }
+        return null;
+    }
+
 //    @Override
 //    public List<Hospital> findByHosname(String hosname) {
 //        return hospitalRepository.findHospitalByHosnameLike(hosname);

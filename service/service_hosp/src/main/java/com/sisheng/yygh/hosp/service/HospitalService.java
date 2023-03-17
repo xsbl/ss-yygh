@@ -32,7 +32,7 @@ public interface HospitalService {
 //
 //    Map<String, Object> getHospDetailById(String id);
 //
-//    String getHospName(String hoscode);
+    String getHospName(String hoscode);
 //
 //    List<Hospital> findByHosname(String hosname);
 //
