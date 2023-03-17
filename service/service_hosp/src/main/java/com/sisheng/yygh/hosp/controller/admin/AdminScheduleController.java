@@ -2,7 +2,7 @@ package com.sisheng.yygh.hosp.controller.admin;
 
 import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.hosp.service.ScheduleService;
-import com.sisheng.yygh.vo.hosp.DepartmentVo;
+import com.sisheng.yygh.model.hosp.Schedule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +26,14 @@ public class AdminScheduleController {
                                   @PathVariable String depcode) {
         Map<String, Object> map = scheduleService.findScheduleRule(pageNo,limit, hoscode,depcode);
         return Result.ok(map);
+    }
+
+    @GetMapping("/{hoscode}/{depcode}/{workDate}")
+    public Result getDetailSchedule(@PathVariable String hoscode,
+                                    @PathVariable String depcode,
+                                    @PathVariable String workDate) {
+        List<Schedule> list = scheduleService.getDetailSchedule(hoscode,depcode, workDate);
+        return Result.ok(list);
     }
 
 }

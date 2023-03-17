@@ -163,15 +163,15 @@ public class ScheduleServiceImpl implements ScheduleService {
         return result;
     }
 
-//    @Override
-//    public List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate) {
-//        //根据参数查询MongoDB中的值
-//        List<Schedule> scheduleList = scheduleRepository.findScheduleByHoscodeAndDepcodeAndWorkDate(hoscode, depcode, new DateTime(workDate).toDate());
-//        scheduleList.stream().forEach(item -> {
-//            this.packageSchedule(item);
-//        });
-//        return scheduleList;
-//    }
+    @Override
+    public List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate) {
+        //根据参数查询MongoDB中的值
+        List<Schedule> scheduleList = scheduleRepository.findScheduleByHoscodeAndDepcodeAndWorkDate(hoscode, depcode, new DateTime(workDate).toDate());
+        scheduleList.stream().forEach(item -> {
+            this.packageSchedule(item);
+        });
+        return scheduleList;
+    }
 //
 //    @Override
 //    public Map<String, Object> getBookingScheduleRule(Integer page, Integer limit, String hoscode, String depcode) {
@@ -376,12 +376,12 @@ public class ScheduleServiceImpl implements ScheduleService {
      *
      * @param schedule
      */
-//    private Schedule packageSchedule(Schedule schedule) {
-//        schedule.getParam().put("hosname", hospitalService.getHospName(schedule.getHoscode()));
-//        schedule.getParam().put("depname", departmentService.getDepName(schedule.getHoscode(), schedule.getDepcode()));
-//        schedule.getParam().put("dayOfWeek", this.getDayOfWeek(new DateTime(schedule.getWorkDate())));
-//        return schedule;
-//    }
+    private Schedule packageSchedule(Schedule schedule) {
+        schedule.getParam().put("hosname", hospitalService.getHospName(schedule.getHoscode()));
+        schedule.getParam().put("depname", departmentService.getDepName(schedule.getHoscode(), schedule.getDepcode()));
+        schedule.getParam().put("dayOfWeek", this.getDayOfWeek(new DateTime(schedule.getWorkDate())));
+        return schedule;
+    }
 
     /**
      * 根据日期获取周几数据

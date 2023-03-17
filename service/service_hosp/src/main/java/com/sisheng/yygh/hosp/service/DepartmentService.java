@@ -19,7 +19,7 @@ public interface DepartmentService {
 
     List<DepartmentVo> findDeptTree(String hoscode);
 
-//    String getDepName(String hoscode, String depcode);
+    String getDepName(String hoscode, String depcode);
 
     Department saveDepartment(Map<String, Object> map);
 

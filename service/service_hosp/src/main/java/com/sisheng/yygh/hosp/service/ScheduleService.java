@@ -16,7 +16,7 @@ public interface ScheduleService {
 
     void remove(Map<String, Object> map);
 //
-//    List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
+    List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
 //
 //    Map<String,Object> getBookingScheduleRule(String hoscode, String depcode,Integer page, Integer limit);
 
