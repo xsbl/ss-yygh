@@ -17,7 +17,7 @@ public interface DepartmentService {
 
 //    void remove(String hoscode, String depcode);
 
-//    List<DepartmentVo> findDeptTree(String hoscode);
+    List<DepartmentVo> findDeptTree(String hoscode);
 
 //    String getDepName(String hoscode, String depcode);
 
@@ -26,4 +26,5 @@ public interface DepartmentService {
     Page<Department> getDepartmentPage(Map<String, Object> map);
 
     void remove(Map<String, Object> map);
+
 }
