@@ -19,8 +19,11 @@ public class AdminScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
-    @GetMapping("/{hoscode}/{depcode}/{pageNo}/{limit}")
-    public Result getSchedulePage(@PathVariable String hoscode,@PathVariable String depcode,@PathVariable Integer pageNo,@PathVariable Integer limit) {
+    @GetMapping("/{pageNo}/{limit}/{hoscode}/{depcode}")
+    public Result getSchedulePage(@PathVariable Integer pageNo,
+                                  @PathVariable Integer limit,
+                                  @PathVariable String hoscode,
+                                  @PathVariable String depcode) {
         Map<String, Object> map = scheduleService.findScheduleRule(pageNo,limit, hoscode,depcode);
         return Result.ok(map);
     }
