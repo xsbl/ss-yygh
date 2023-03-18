@@ -41,7 +41,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private PatientService patientService;
 
     @Override
-    public Map<String, Object> userLogin(LoginVo loginVo) {
+    public Map<String, Object> login(LoginVo loginVo) {
 
         //获取用户手机号和验证码
         String phone = loginVo.getPhone();

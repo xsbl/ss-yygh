@@ -16,7 +16,7 @@ import java.util.Map;
  * @created 2022/7/5-22:37
  **/
 public interface UserInfoService  extends IService<UserInfo> {
-    Map<String, Object> userLogin(LoginVo loginVo);
+    Map<String, Object> login(LoginVo loginVo);
 
     UserInfo getByOpenid(String openId);
 

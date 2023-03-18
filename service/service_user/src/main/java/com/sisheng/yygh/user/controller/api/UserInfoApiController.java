@@ -29,8 +29,8 @@ public class UserInfoApiController {
 
     @ApiOperation(value = "手机登录接口")
     @PostMapping("/login")
-    public Result userLogin(@RequestBody LoginVo loginVo) {
-        Map<String, Object> result = userInfoService.userLogin(loginVo);
+    public Result login(@RequestBody LoginVo loginVo) {
+        Map<String, Object> result = userInfoService.login(loginVo);
         return Result.ok(result);
     }
 
