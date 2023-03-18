@@ -34,7 +34,7 @@ public interface HospitalService {
 //
     String getHospName(String hoscode);
 //
-//    List<Hospital> findByHosname(String hosname);
+    List<Hospital> findByHosname(String hosname);
 //
 //    Map<String, Object> findHospDetailByHoscode(String hoscode);
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user/hospital")
 public class UserHospitalController {
@@ -22,6 +24,12 @@ public class UserHospitalController {
     public Result listHospital(HospitalQueryVo hospitalQueryVo) {
         Page<Hospital> page = hospitalService.list(1, 1000000, hospitalQueryVo);
         return Result.ok(page);
+    }
+
+    @GetMapping("/{name}")
+    public Result findByHosname(@PathVariable String name) {
+        List<Hospital> list = hospitalService.findByHosname(name);
+        return Result.ok(list);
     }
 
 

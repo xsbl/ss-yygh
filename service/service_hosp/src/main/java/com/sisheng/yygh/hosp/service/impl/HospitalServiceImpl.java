@@ -117,11 +117,11 @@ public class HospitalServiceImpl implements HospitalService {
         return null;
     }
 
-//    @Override
-//    public List<Hospital> findByHosname(String hosname) {
-//        return hospitalRepository.findHospitalByHosnameLike(hosname);
-//    }
-//
+    @Override
+    public List<Hospital> findByHosname(String hosname) {
+        return hospitalRepository.findHospitalByHosnameLike(hosname);
+    }
+
 //    @Override
 //    public Map<String, Object> findHospDetailByHoscode(String hoscode) {
 //        Map<String, Object> result = new HashMap<>();
