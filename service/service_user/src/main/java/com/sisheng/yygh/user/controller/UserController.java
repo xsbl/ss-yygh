@@ -16,11 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/**
- * @author bobochang
- * @description
- * @created 2022/7/13-16:34
- **/
 @Api(tags = "用户管理接口")
 @RestController
 @RequestMapping("/admin/user")
