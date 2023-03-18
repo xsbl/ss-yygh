@@ -20,7 +20,7 @@ spring:
        - id: service-hosp3
          uri: lb://service-hosp
          predicates:
-           - Path=/*/user/** # 路径匹配
+           - Path=/user/** # 路径匹配
        - id: service-cmn
          uri: lb://service-cmn
          predicates:
