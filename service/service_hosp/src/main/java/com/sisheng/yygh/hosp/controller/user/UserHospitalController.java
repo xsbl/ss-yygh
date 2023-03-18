@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user/hospital")
@@ -32,5 +33,10 @@ public class UserHospitalController {
         return Result.ok(list);
     }
 
+    @GetMapping("/detail/{hoscode}")
+    public Result findHospDetailByHoscode(@PathVariable String hoscode) {
+        Hospital hospital = hospitalService.findHospDetailByHoscode(hoscode);
+        return Result.ok(hospital);
+    }
 
 }

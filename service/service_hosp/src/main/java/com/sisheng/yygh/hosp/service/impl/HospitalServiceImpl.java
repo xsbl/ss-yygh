@@ -122,18 +122,13 @@ public class HospitalServiceImpl implements HospitalService {
         return hospitalRepository.findHospitalByHosnameLike(hosname);
     }
 
-//    @Override
-//    public Map<String, Object> findHospDetailByHoscode(String hoscode) {
-//        Map<String, Object> result = new HashMap<>();
-//        //医院详情
-//        Hospital hospital = this.setHospitalHosType(this.showHospitalByHoscode(hoscode));
-//        result.put("hospital", hospital);
-//        //预约规则
-//        result.put("bookingRule", hospital.getBookingRule());
-//        //不需要重复返回
-//        hospital.setBookingRule(null);
-//        return result;
-//    }
+    @Override
+    public Hospital findHospDetailByHoscode(String hoscode) {
+        //医院详情
+        Hospital hospital = this.getHospitalByHoscode(hoscode);
+        this.setHospitalHosType(hospital);
+        return hospital;
+    }
 
 
 }
