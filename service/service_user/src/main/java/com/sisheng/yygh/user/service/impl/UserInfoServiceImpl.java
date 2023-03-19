@@ -52,9 +52,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
 
-        //TODO 验证码校验
+        //短信验证码校验
         String redisCode = redisTemplate.opsForValue().get(phone);
-        if (!code.equals(redisCode)) {
+        if (StringUtils.isEmpty(redisCode) || !code.equals(redisCode)) {
             throw new YyghException(ResultCodeEnum.CODE_ERROR);
         }
 
