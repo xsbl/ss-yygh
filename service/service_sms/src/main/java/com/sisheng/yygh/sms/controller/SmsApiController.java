@@ -38,14 +38,16 @@ public class SmsApiController {
         //从redis中获取手机号对应的验证码 若存在则直接返回
         String code = redisTemplate.opsForValue().get(phone);
         if (!StringUtils.isEmpty(code)) {
+            //实际项目中不会这么做，现在这么做只是因为不想重复的发送验证码
             return Result.ok();
         }
 
         //若不存在验证码则通过整合短信服务进行发送 并将验证码存放到Redis并设置有效时间
-        code = RandomUtil.getSixBitRandom();
+//        code = RandomUtil.getSixBitRandom();
+        code = "147258";
         boolean isSend = smsService.send(phone, code);
         if (isSend) {
-            redisTemplate.opsForValue().set(phone, code, 3, TimeUnit.MINUTES);
+            redisTemplate.opsForValue().set(phone, code, 180, TimeUnit.DAYS);
             return Result.ok();
         } else {
             return Result.fail().message("发送失败");
