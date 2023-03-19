@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
  **/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class,MongoAutoConfiguration.class})//取消数据源自动配置
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.bobochang"})
+@ComponentScan(basePackages = {"com.sisheng"})
 public class ServiceSmsApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceSmsApplication.class, args);
