@@ -55,52 +55,49 @@ public class WeixinApiController {
         return Result.ok(map);
     }
 
-//    @ApiOperation(value = "扫码回调接口")
-//    @GetMapping("/callback")
-//    public String callback(String code, String state) throws UnsupportedEncodingException {
-//        //获取授权临时票据
-//        System.out.println("微信授权服务器回调。。。。。。");
-//        System.out.println("state = " + state);
-//        System.out.println("code = " + code);
-//
-//        if (StringUtils.isEmpty(state) || StringUtils.isEmpty(code)) {
-//            log.error("非法回调请求");
-//            throw new YyghException(ResultCodeEnum.ILLEGAL_CALLBACK_REQUEST_ERROR);
-//        }
-//
-//        //使用code和appid以及appscrect换取access_token
-//        StringBuffer baseAccessTokenUrl = new StringBuffer()
-//                .append("https://api.weixin.qq.com/sns/oauth2/access_token")
-//                .append("?appid=%s")
-//                .append("&secret=%s")
-//                .append("&code=%s")
-//                .append("&grant_type=authorization_code");
-//
-//        String accessTokenUrl = String.format(baseAccessTokenUrl.toString(),
-//                ConstantPropertiesUtil.WX_OPEN_APP_ID,
-//                ConstantPropertiesUtil.WX_OPEN_APP_SECRET,
-//                code);
-//
-//        String result = null;
-//        try {
-//            result = HttpClientUtils.get(accessTokenUrl);
-//        } catch (Exception e) {
-//            throw new YyghException(ResultCodeEnum.FETCH_ACCESSTOKEN_FAILD);
-//        }
-//
-//        System.out.println("使用code换取的access_token结果 = " + result);
-//
-//        JSONObject resultJson = JSONObject.parseObject(result);
-//        if (resultJson.getString("errcode") != null) {
-//            log.error("获取access_token失败：" + resultJson.getString("errcode") + resultJson.getString("errmsg"));
-//            throw new YyghException(ResultCodeEnum.FETCH_ACCESSTOKEN_FAILD);
-//        }
-//
-//        String accessToken = resultJson.getString("access_token");
-//        String openId = resultJson.getString("openid");
-//        log.info(accessToken);
-//        log.info(openId);
-//
+    @ApiOperation(value = "扫码回调接口")
+    @GetMapping("/callback")
+    public String callback(String code, String state) throws UnsupportedEncodingException {
+        //获取授权临时票据
+        System.out.println("微信授权服务器回调。。。。。。");
+        System.out.println("state = " + state);
+        System.out.println("code = " + code);
+
+        if (StringUtils.isEmpty(state) || StringUtils.isEmpty(code)) {
+            log.error("非法回调请求");
+            throw new YyghException(ResultCodeEnum.ILLEGAL_CALLBACK_REQUEST_ERROR);
+        }
+
+        //使用code和appid以及appscrect换取access_token
+        StringBuffer baseAccessTokenUrl = new StringBuffer()
+                .append("https://api.weixin.qq.com/sns/oauth2/access_token")
+                .append("?appid=%s")
+                .append("&secret=%s")
+                .append("&code=%s")
+                .append("&grant_type=authorization_code");
+
+        String accessTokenUrl = String.format(baseAccessTokenUrl.toString(), ConstantPropertiesUtil.WX_OPEN_APP_ID, ConstantPropertiesUtil.WX_OPEN_APP_SECRET, code);
+
+        String result = null;
+        try {
+            result = HttpClientUtils.get(accessTokenUrl);
+        } catch (Exception e) {
+            throw new YyghException(ResultCodeEnum.FETCH_ACCESSTOKEN_FAILD);
+        }
+
+        System.out.println("使用code换取的access_token结果 = " + result);
+
+        JSONObject resultJson = JSONObject.parseObject(result);
+        if (resultJson.getString("errcode") != null) {
+            log.error("获取access_token失败：" + resultJson.getString("errcode") + resultJson.getString("errmsg"));
+            throw new YyghException(ResultCodeEnum.FETCH_ACCESSTOKEN_FAILD);
+        }
+
+        String accessToken = resultJson.getString("access_token");
+        String openId = resultJson.getString("openid");
+        log.info(accessToken);
+        log.info(openId);
+
 //        //根据access_token获取微信用户的基本信息
 //        //先根据openid进行数据库查询
 //        UserInfo userInfo = userInfoService.getByOpenid(openId);
@@ -156,7 +153,8 @@ public class WeixinApiController {
 //        map.put("token", token);
 //        return "redirect:" + ConstantPropertiesUtil.YYGH_BASE_URL + "/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" +
 //                URLEncoder.encode((String) map.get("name"), StandardCharsets.UTF_8);
-//    }
+        return "";
+    }
 
 }
 
