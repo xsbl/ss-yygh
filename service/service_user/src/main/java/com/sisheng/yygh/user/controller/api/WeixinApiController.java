@@ -1,60 +1,60 @@
-//package com.sisheng.yygh.user.controller.api;
-//
-//
-//import com.alibaba.fastjson.JSONObject;
-//import com.sisheng.yygh.common.exception.YyghException;
-//import com.sisheng.yygh.common.helper.JwtHelper;
-//import com.sisheng.yygh.common.result.Result;
-//import com.sisheng.yygh.common.result.ResultCodeEnum;
-//import com.sisheng.yygh.model.user.UserInfo;
-//import com.sisheng.yygh.user.service.UserInfoService;
-//import com.sisheng.yygh.user.utils.ConstantPropertiesUtil;
-//import com.sisheng.yygh.user.utils.HttpClientUtils;
-//import io.swagger.annotations.Api;
-//import io.swagger.annotations.ApiOperation;
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.commons.lang3.StringUtils;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.redis.core.RedisTemplate;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.ResponseBody;
-//
-//import javax.servlet.http.HttpSession;
-//import java.io.UnsupportedEncodingException;
-//import java.net.URLEncoder;
-//import java.nio.charset.StandardCharsets;
-//import java.util.HashMap;
-//import java.util.Map;
-//
-//@Api(tags = "微信登录操作接口")
-//@Slf4j
-//@Controller
-//@RequestMapping("/api/ucenter/wx")
-//public class WeixinApiController {
-//
-//    @Autowired
-//    private UserInfoService userInfoService;
-//    @Autowired
-//    private RedisTemplate redisTemplate;
-//
-//    /**
-//     * 获取微信登录参数
-//     */
-//    @ApiOperation(value = "获取微信登录参数")
-//    @GetMapping("/getLoginParam")
-//    @ResponseBody
-//    public Result genQrConnect(HttpSession session) throws UnsupportedEncodingException {
-//        String redirectUri = URLEncoder.encode(ConstantPropertiesUtil.WX_OPEN_REDIRECT_URL, "UTF-8");
-//        Map<String, Object> map = new HashMap<>();
-//        map.put("appid", ConstantPropertiesUtil.WX_OPEN_APP_ID);
-//        map.put("redirectUri", redirectUri);
-//        map.put("scope", "snsapi_login");
-//        map.put("state", System.currentTimeMillis() + "");//System.currentTimeMillis()+""
-//        return Result.ok(map);
-//    }
-//
+package com.sisheng.yygh.user.controller.api;
+
+
+import com.alibaba.fastjson.JSONObject;
+import com.sisheng.yygh.common.exception.YyghException;
+import com.sisheng.yygh.common.helper.JwtHelper;
+import com.sisheng.yygh.common.result.Result;
+import com.sisheng.yygh.common.result.ResultCodeEnum;
+import com.sisheng.yygh.model.user.UserInfo;
+import com.sisheng.yygh.user.service.UserInfoService;
+import com.sisheng.yygh.user.utils.ConstantPropertiesUtil;
+import com.sisheng.yygh.user.utils.HttpClientUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+@Api(tags = "微信登录操作接口")
+@Slf4j
+@Controller
+@RequestMapping("/api/user/ucenter/wx")
+public class WeixinApiController {
+
+    @Autowired
+    private UserInfoService userInfoService;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    /**
+     * 获取微信登录参数
+     */
+    @ApiOperation(value = "获取微信登录参数")
+    @GetMapping("/getLoginParam")
+    @ResponseBody
+    public Result genQrConnect(HttpSession session) throws UnsupportedEncodingException {
+        String redirectUri = URLEncoder.encode(ConstantPropertiesUtil.WX_OPEN_REDIRECT_URL, "UTF-8");
+        Map<String, Object> map = new HashMap<>();
+        map.put("appid", ConstantPropertiesUtil.WX_OPEN_APP_ID);
+        map.put("redirectUri", redirectUri);
+        map.put("scope", "snsapi_login");
+        map.put("state", System.currentTimeMillis() + "");//System.currentTimeMillis()+""
+        return Result.ok(map);
+    }
+
 //    @ApiOperation(value = "扫码回调接口")
 //    @GetMapping("/callback")
 //    public String callback(String code, String state) throws UnsupportedEncodingException {
@@ -157,6 +157,6 @@
 //        return "redirect:" + ConstantPropertiesUtil.YYGH_BASE_URL + "/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" +
 //                URLEncoder.encode((String) map.get("name"), StandardCharsets.UTF_8);
 //    }
-//
-//}
-//
+
+}
+
