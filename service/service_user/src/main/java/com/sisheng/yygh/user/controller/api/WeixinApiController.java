@@ -135,7 +135,7 @@ public class WeixinApiController {
             userInfoService.save(userInfo);
         }
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         String name = userInfo.getName();
         if (StringUtils.isEmpty(name)) {
             name = userInfo.getNickName();
@@ -144,6 +144,7 @@ public class WeixinApiController {
             name = userInfo.getPhone();
         }
         map.put("name", name);
+        //手机号为空，说明首次登录
         if (StringUtils.isEmpty(userInfo.getPhone())) {
             map.put("openid", userInfo.getOpenid());
         } else {
@@ -151,9 +152,9 @@ public class WeixinApiController {
         }
         String token = JwtHelper.createToken(userInfo.getId(), name);
         map.put("token", token);
-//        return "redirect:" + ConstantPropertiesUtil.YYGH_BASE_URL + "/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" +
-//                URLEncoder.encode((String) map.get("name"), StandardCharsets.UTF_8);
-        return "";
+        return "redirect:" + ConstantPropertiesUtil.YYGH_BASE_URL + "/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" +
+                URLEncoder.encode(map.get("name"), "utf-8");
+//        return "";
     }
 
 }
