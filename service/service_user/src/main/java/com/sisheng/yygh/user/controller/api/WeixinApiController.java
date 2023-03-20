@@ -100,57 +100,57 @@ public class WeixinApiController {
 
 //        //根据access_token获取微信用户的基本信息
 //        //先根据openid进行数据库查询
-//        UserInfo userInfo = userInfoService.getByOpenid(openId);
+        UserInfo userInfo = userInfoService.getByOpenid(openId);
 //        // 如果没有查到用户信息,那么调用微信个人信息获取的接口
-//        if (null == userInfo) {
-//            //如果查询到个人信息，那么直接进行登录
-//            //使用access_token换取受保护的资源：微信的个人信息
-//            String baseUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo" +
-//                    "?access_token=%s" +
-//                    "&openid=%s";
-//            String userInfoUrl = String.format(baseUserInfoUrl, accessToken, openId);
-//            String resultUserInfo = null;
-//            try {
-//                resultUserInfo = HttpClientUtils.get(userInfoUrl);
-//            } catch (Exception e) {
-//                throw new YyghException(ResultCodeEnum.FETCH_USERINFO_ERROR);
-//            }
-//            System.out.println("使用access_token获取用户信息的结果 = " + resultUserInfo);
-//
-//            JSONObject resultUserInfoJson = JSONObject.parseObject(resultUserInfo);
-//            if (resultUserInfoJson.getString("errcode") != null) {
-//                log.error("获取用户信息失败：" + resultUserInfoJson.getString("errcode") + resultUserInfoJson.getString("errmsg"));
-//                throw new YyghException(ResultCodeEnum.FETCH_USERINFO_ERROR);
-//            }
-//
-//            //解析用户信息
-//            String nickname = resultUserInfoJson.getString("nickname");
-//            String headimgurl = resultUserInfoJson.getString("headimgurl");
-//
-//            //将数据加入到数据库中
-//            userInfo = new UserInfo();
-//            userInfo.setOpenid(openId);
-//            userInfo.setNickName(nickname);
-//            userInfo.setStatus(1);
-//            userInfoService.save(userInfo);
-//        }
-//
-//        Map<String, Object> map = new HashMap<>();
-//        String name = userInfo.getName();
-//        if (StringUtils.isEmpty(name)) {
-//            name = userInfo.getNickName();
-//        }
-//        if (StringUtils.isEmpty(name)) {
-//            name = userInfo.getPhone();
-//        }
-//        map.put("name", name);
-//        if (StringUtils.isEmpty(userInfo.getPhone())) {
-//            map.put("openid", userInfo.getOpenid());
-//        } else {
-//            map.put("openid", "");
-//        }
-//        String token = JwtHelper.createToken(userInfo.getId(), name);
-//        map.put("token", token);
+        if (null == userInfo) {
+            //如果查询到个人信息，那么直接进行登录
+            //使用access_token换取受保护的资源：微信的个人信息
+            String baseUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo" +
+                    "?access_token=%s" +
+                    "&openid=%s";
+            String userInfoUrl = String.format(baseUserInfoUrl, accessToken, openId);
+            String resultUserInfo = null;
+            try {
+                resultUserInfo = HttpClientUtils.get(userInfoUrl);
+            } catch (Exception e) {
+                throw new YyghException(ResultCodeEnum.FETCH_USERINFO_ERROR);
+            }
+            System.out.println("使用access_token获取用户信息的结果 = " + resultUserInfo);
+
+            JSONObject resultUserInfoJson = JSONObject.parseObject(resultUserInfo);
+            if (resultUserInfoJson.getString("errcode") != null) {
+                log.error("获取用户信息失败：" + resultUserInfoJson.getString("errcode") + resultUserInfoJson.getString("errmsg"));
+                throw new YyghException(ResultCodeEnum.FETCH_USERINFO_ERROR);
+            }
+
+            //解析用户信息
+            String nickname = resultUserInfoJson.getString("nickname");
+            String headimgurl = resultUserInfoJson.getString("headimgurl");
+
+            //将数据加入到数据库中
+            userInfo = new UserInfo();
+            userInfo.setOpenid(openId);
+            userInfo.setNickName(nickname);
+            userInfo.setStatus(1);
+            userInfoService.save(userInfo);
+        }
+
+        Map<String, Object> map = new HashMap<>();
+        String name = userInfo.getName();
+        if (StringUtils.isEmpty(name)) {
+            name = userInfo.getNickName();
+        }
+        if (StringUtils.isEmpty(name)) {
+            name = userInfo.getPhone();
+        }
+        map.put("name", name);
+        if (StringUtils.isEmpty(userInfo.getPhone())) {
+            map.put("openid", userInfo.getOpenid());
+        } else {
+            map.put("openid", "");
+        }
+        String token = JwtHelper.createToken(userInfo.getId(), name);
+        map.put("token", token);
 //        return "redirect:" + ConstantPropertiesUtil.YYGH_BASE_URL + "/weixin/callback?token=" + map.get("token") + "&openid=" + map.get("openid") + "&name=" +
 //                URLEncoder.encode((String) map.get("name"), StandardCharsets.UTF_8);
         return "";
