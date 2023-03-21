@@ -12,16 +12,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConstantOssPropertiesUtils implements InitializingBean {
 
-    @Value("${tencent.cos.region}")
+    @Value("${aliyun.oss.file.endpoint}")
     private String region;
 
-    @Value("${tencent.cos.secretId}")
+    @Value("${aliyun.oss.file.keyid}")
     private String secretId;
 
-    @Value("${tencent.cos.secretKey}")
+    @Value("${aliyun.oss.file.keysecret}")
     private String secretKey;
 
-    @Value("${tencent.cos.bucketName}")
+    @Value("${aliyun.oss.file.bucketname}")
     private String bucketName;
 
     public static String REGION;

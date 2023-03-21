@@ -14,7 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
  **/
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class, MongoAutoConfiguration.class})
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.bobochang"})
+@ComponentScan(basePackages = {"com.sisheng"})
 public class ServiceOssApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceOssApplication.class, args);
