@@ -1,5 +1,11 @@
 package com.sisheng.yygh.oss.service.impl;
 
+import com.aliyun.oss.ClientException;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.PutObjectRequest;
+import com.aliyun.oss.model.PutObjectResult;
 import com.sisheng.yygh.oss.service.FileService;
 import com.sisheng.yygh.oss.utils.ConstantOssPropertiesUtils;
 import com.qcloud.cos.COSClient;
@@ -17,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 
 /**
@@ -28,50 +37,82 @@ import java.util.UUID;
 public class FileServiceImpl implements FileService {
     @Override
     public String upload(MultipartFile file, HttpServletRequest request) {
-        // 1 初始化用户身份信息（secretId, secretKey）。
-        // SECRETID和SECRETKEY请登录访问管理控制台 https://console.cloud.tencent.com/cam/capi 进行查看和管理
-        String secretId = ConstantOssPropertiesUtils.SECRETID;
-        String secretKey = ConstantOssPropertiesUtils.SECRECTKEY;
-        COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
-        // 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
-        // clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。
-        Region region = new Region(ConstantOssPropertiesUtils.REGION);
-        ClientConfig clientConfig = new ClientConfig(region);
-        // 3 生成 cos 客户端。
-        COSClient cosClient = new COSClient(cred, clientConfig);
-        // 指定文件将要存放的存储桶
+//        // 1 初始化用户身份信息（secretId, secretKey）。
+//        // SECRETID和SECRETKEY请登录访问管理控制台 https://console.cloud.tencent.com/cam/capi 进行查看和管理
+//        String secretId = ConstantOssPropertiesUtils.SECRETID;
+//        String secretKey = ConstantOssPropertiesUtils.SECRECTKEY;
+//        COSCredentials cred = new BasicCOSCredentials(secretId, secretKey);
+//        // 2 设置 bucket 的地域, COS 地域的简称请参照 https://cloud.tencent.com/document/product/436/6224
+//        // clientConfig 中包含了设置 region, https(默认 http), 超时, 代理等 set 方法, 使用可参见源码或者常见问题 Java SDK 部分。
+//        Region region = new Region(ConstantOssPropertiesUtils.REGION);
+//        ClientConfig clientConfig = new ClientConfig(region);
+//        // 3 生成 cos 客户端。
+//        COSClient cosClient = new COSClient(cred, clientConfig);
+//        // 指定文件将要存放的存储桶
+//        String bucketName = ConstantOssPropertiesUtils.BUCKETNAME;
+//        // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
+//        String objectName = file.getOriginalFilename();
+//        //通过uuid为文件名赋予唯一值
+//        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+//        objectName = uuid + objectName;
+//        //按照日期 将文件存放到对应日期的文件夹中
+//        String timeUrl = new DateTime().toString("yyyy/MM/dd");
+//        // 2022/07/13/xxx.jpg
+//        objectName = timeUrl + "/" + objectName;
+//        // 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
+//        String key = objectName;
+//        // 处理文件路径
+//        String url = null;
+//        try {
+//            String filePath = request.getSession().getServletContext().getRealPath("/") + file.getOriginalFilename();
+//            file.transferTo(new File(filePath));
+//            File localFile = new File(filePath);
+//            // 报错请求对象
+//            AppendObjectRequest appendObjectRequest = new AppendObjectRequest(bucketName, key, localFile);
+//            // 设置节点
+//            appendObjectRequest.setPosition(0L);
+//            cosClient.appendObject(appendObjectRequest);
+//            // 获取返回对象
+//            GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
+//            COSObject cosObject = cosClient.getObject(getObjectRequest);
+//            url = cosObject.getObjectContent().getHttpRequest().getURI().toString();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            cosClient.shutdown();
+//        }
+//        return url;
+
+        // Endpoint以华东1（杭州）为例，其它Region请按实际情况填写。
+        String endpoint = ConstantOssPropertiesUtils.REGION;
+        // 阿里云账号AccessKey拥有所有API的访问权限，风险很高。强烈建议您创建并使用RAM用户进行API访问或日常运维，请登录RAM控制台创建RAM用户。
+        String accessKeyId = ConstantOssPropertiesUtils.SECRETID;
+        String accessKeySecret = ConstantOssPropertiesUtils.SECRECTKEY;
+        // 填写Bucket名称，例如examplebucket。
         String bucketName = ConstantOssPropertiesUtils.BUCKETNAME;
-        // 填写Object完整路径，完整路径中不能包含Bucket名称，例如exampledir/exampleobject.txt。
-        String objectName = file.getOriginalFilename();
-        //通过uuid为文件名赋予唯一值
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        objectName = uuid + objectName;
-        //按照日期 将文件存放到对应日期的文件夹中
-        String timeUrl = new DateTime().toString("yyyy/MM/dd");
-        // 2022/07/13/xxx.jpg
-        objectName = timeUrl + "/" + objectName;
-        // 指定文件上传到 COS 上的路径，即对象键。例如对象键为folder/picture.jpg，则表示将文件 picture.jpg 上传到 folder 路径下
-        String key = objectName;
-        // 处理文件路径
-        String url = null;
+
+        // 创建OSSClient实例。
+        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
+        String originalFilename = new DateTime().toString("yyyy/MM/dd") + UUID.randomUUID().toString().replace("-", "") + file.getOriginalFilename();
+
         try {
-            String filePath = request.getSession().getServletContext().getRealPath("/") + file.getOriginalFilename();
-            file.transferTo(new File(filePath));
-            File localFile = new File(filePath);
-            // 报错请求对象
-            AppendObjectRequest appendObjectRequest = new AppendObjectRequest(bucketName, key, localFile);
-            // 设置节点
-            appendObjectRequest.setPosition(0L);
-            cosClient.appendObject(appendObjectRequest);
-            // 获取返回对象
-            GetObjectRequest getObjectRequest = new GetObjectRequest(bucketName, key);
-            COSObject cosObject = cosClient.getObject(getObjectRequest);
-            url = cosObject.getObjectContent().getHttpRequest().getURI().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // 创建PutObjectRequest对象。
+            PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, originalFilename, file.getInputStream());
+            // 设置该属性可以返回response。如果不设置，则返回的response为空。
+            putObjectRequest.setProcess("true");
+            // 创建PutObject请求。
+            PutObjectResult result = ossClient.putObject(putObjectRequest);
+            // 如果上传成功，则返回200。
+            System.out.println(result.getResponse().getStatusCode());
+
+            return  "https://"+bucketName+"."+endpoint+"/"+originalFilename;
+        }catch (Exception e) {
+            throw new RuntimeException(e);
         } finally {
-            cosClient.shutdown();
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
         }
-        return url;
+
     }
 }
