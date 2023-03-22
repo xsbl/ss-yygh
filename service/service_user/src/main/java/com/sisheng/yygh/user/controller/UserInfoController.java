@@ -18,8 +18,8 @@ import java.util.Map;
 
 @Api(tags = "用户管理接口")
 @RestController
-@RequestMapping("/admin/user")
-public class UserController {
+@RequestMapping("/admin/userInfo")
+public class UserInfoController {
 
     @Autowired
     private UserInfoService userInfoService;

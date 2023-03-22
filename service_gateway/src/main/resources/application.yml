@@ -21,6 +21,14 @@ spring:
          uri: lb://service-hosp
          predicates:
            - Path=/user/** # 路径匹配
+       - id: service-hosp4    #后台管理的用户登录
+         uri: lb://service-hosp
+         predicates:
+            - Path=/admin/user/login # 路径匹配
+       - id: service-hosp5   #后台管理的用户登录
+         uri: lb://service-hosp
+         predicates:
+            - Path=/admin/user/info # 路径匹配
        - id: service-cmn
          uri: lb://service-cmn
          predicates:
@@ -28,7 +36,7 @@ spring:
        - id: service-user
          uri: lb://service-user
          predicates:
-          - Path=/api/user/** # 路径匹配
+          - Path=/*/userInfo/** # 路径匹配
        - id: service-sms
          uri: lb://service-sms
          predicates:
