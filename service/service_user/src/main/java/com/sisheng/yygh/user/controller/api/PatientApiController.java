@@ -27,7 +27,7 @@ public class PatientApiController {
     private PatientService patientService;
 
     @ApiOperation(value = "获取就诊人列表")
-    @GetMapping("/auth/findAll")
+    @GetMapping("/findAll")
     public Result findAll(HttpServletRequest request) {
         //通过工具类获得当前登陆用户的id
         Long userId = AuthContextHolder.getUserId(request);
@@ -36,7 +36,7 @@ public class PatientApiController {
     }
 
     @ApiOperation(value = "添加就诊人信息")
-    @PostMapping("/auth/save")
+    @PostMapping("/save")
     public Result save(@RequestBody Patient patient, HttpServletRequest request) {
         //获取请求头中的用户id
         Long userId = AuthContextHolder.getUserId(request);
@@ -46,21 +46,21 @@ public class PatientApiController {
     }
 
     @ApiOperation(value = "根据就诊人id获取就诊人信息")
-    @GetMapping("/auth/get/{id}")
+    @GetMapping("/get/{id}")
     public Result getPatientById(@PathVariable Long id) {
         Patient patient = patientService.getPatientById(id);
         return Result.ok(patient);
     }
 
     @ApiOperation(value = "修改就诊人信息")
-    @PostMapping("/auth/update")
+    @PostMapping("/update")
     public Result updatePatient(@RequestBody Patient patient) {
         patientService.updateById(patient);
         return Result.ok();
     }
 
     @ApiOperation(value = "删除就诊人信息")
-    @DeleteMapping("/auth/remove/{id}")
+    @DeleteMapping("/remove/{id}")
     public Result removePatient(@PathVariable Long id) {
         patientService.removeById(id);
         return Result.ok();
