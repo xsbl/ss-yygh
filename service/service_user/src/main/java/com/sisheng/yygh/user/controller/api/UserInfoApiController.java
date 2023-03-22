@@ -2,6 +2,7 @@ package com.sisheng.yygh.user.controller.api;
 
 import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.common.utils.AuthContextHolder;
+import com.sisheng.yygh.enums.AuthStatusEnum;
 import com.sisheng.yygh.model.user.UserInfo;
 import com.sisheng.yygh.user.service.UserInfoService;
 import com.sisheng.yygh.vo.user.LoginVo;
@@ -46,6 +47,7 @@ public class UserInfoApiController {
     @GetMapping("/auth/getUserInfo")
     public Result getUserInfo(HttpServletRequest request) {
         UserInfo userInfo = userInfoService.getById(AuthContextHolder.getUserId(request));
+        userInfo.getParam().put("authStatusString", AuthStatusEnum.getStatusNameByStatus(userInfo.getAuthStatus()));
         return Result.ok(userInfo);
     }
 }
