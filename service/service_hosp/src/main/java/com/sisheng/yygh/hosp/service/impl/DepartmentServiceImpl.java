@@ -23,8 +23,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
 
-
-
     @Override
     public void remove(Map<String, Object> map) {
         String hoscode = (String) map.get("hoscode");
@@ -88,7 +86,16 @@ public class DepartmentServiceImpl implements DepartmentService {
             return department.getDepname();
         }
         return null;
+    }
 
+    @Override
+    public Department getDepartment(String hoscode, String depcode) {
+
+        Department department = departmentRepository.findByHoscodeAndDepcode(hoscode, depcode);
+        if (department != null) {
+            return department;
+        }
+        return null;
     }
 
     @Override

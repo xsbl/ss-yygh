@@ -27,4 +27,6 @@ public interface DepartmentService {
 
     void remove(Map<String, Object> map);
 
+    Department getDepartment(String hoscode, String depcode);
+
 }
