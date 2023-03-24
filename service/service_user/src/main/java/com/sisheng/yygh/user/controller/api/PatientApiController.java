@@ -67,7 +67,7 @@ public class PatientApiController {
     }
 
     @ApiOperation(value = "根据就诊人id获取就诊人信息")
-    @GetMapping("/inner/get/{id}")
+    @GetMapping("/order/get/{id}")
     public Patient getPatient(@PathVariable Long id) {
         Patient patient = patientService.getById(id);
         return patient;
