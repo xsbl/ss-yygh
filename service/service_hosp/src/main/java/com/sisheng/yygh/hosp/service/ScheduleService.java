@@ -15,16 +15,16 @@ public interface ScheduleService {
     Page<Schedule> getSchedulePage(Map<String, Object> map);
 
     void remove(Map<String, Object> map);
-//
+
     List<Schedule> getDetailSchedule(String hoscode, String depcode, String workDate);
-//
+
     Map<String,Object> getBookingScheduleRule(Integer page, Integer limit, String hoscode, String depcode);
 
     Map<String, Object> findScheduleRule(int page, int limit, String hoscode, String depcode);
-//
-//    Schedule getScheduleById(String scheduleId);
-//
+
+    Schedule getScheduleInfo(String scheduleId);
+
 //    ScheduleOrderVo getScheduleOrderVo(String scheduleId);
-//
+
 //    void update(Schedule schedule);
 }

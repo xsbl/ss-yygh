@@ -39,4 +39,9 @@ public class UserScheduleController {
         return Result.ok(schedules);
     }
 
+    @GetMapping("/info/{scheduleId}")
+    public Result getScheduleInfo(@PathVariable String scheduleId) {
+         Schedule  schedule = scheduleService.getScheduleInfo(scheduleId );
+        return Result.ok(schedule);
+    }
 }

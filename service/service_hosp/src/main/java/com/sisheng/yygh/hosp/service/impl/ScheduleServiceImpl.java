@@ -265,11 +265,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return result;
     }
 
-//    @Override
-//    public Schedule getScheduleById(String scheduleId) {
-//        Schedule schedule = scheduleRepository.findById(scheduleId).get();
-//        return this.packageSchedule(schedule);
-//    }
+    @Override
+    public Schedule getScheduleInfo(String scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId).get();
+        return this.packageSchedule(schedule);
+    }
 
 //    @Override
 //    public ScheduleOrderVo getScheduleOrderVo(String scheduleId) {
