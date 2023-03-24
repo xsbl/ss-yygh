@@ -47,7 +47,7 @@ public class UserScheduleController {
     }
 
     @GetMapping("/order/{scheduleId}")
-    public ScheduleOrderVo getScheduleOrder(@PathVariable String scheduleId) {
+    public ScheduleOrderVo getScheduleOrder(@PathVariable(value = "scheduleId") String scheduleId) {
         ScheduleOrderVo  scheduleOrderVo = scheduleService.getScheduleOrderVo(scheduleId );
         return scheduleOrderVo;
     }
