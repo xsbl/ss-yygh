@@ -25,17 +25,18 @@ import java.util.Map;
 
 @Api(tags = "订单接口")
 @RestController
-@RequestMapping("/api/order/orderInfo")
+@RequestMapping("/api/order")
 public class OrderApiController {
 
     @Autowired
     private OrderInfoService orderInfoService;
 
     @ApiOperation(value = "根据排班编号和就诊人编号生成挂号订单")
-    @PostMapping("/auth/submitOrder/{scheduleId}/{patientId}")
+    @PostMapping("/{scheduleId}/{patientId}")
     public Result saveOrders(@PathVariable String scheduleId,
                              @PathVariable Long patientId) {
-        return Result.ok(orderInfoService.saveOrder(scheduleId, patientId));
+        Long orderId = orderInfoService.saveOrder(scheduleId, patientId);
+        return Result.ok(orderId);
     }
 
 

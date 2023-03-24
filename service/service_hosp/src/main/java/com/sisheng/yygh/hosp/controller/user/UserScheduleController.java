@@ -4,6 +4,7 @@ import com.sisheng.yygh.common.result.Result;
 import com.sisheng.yygh.hosp.service.ScheduleService;
 import com.sisheng.yygh.model.hosp.Hospital;
 import com.sisheng.yygh.model.hosp.Schedule;
+import com.sisheng.yygh.vo.hosp.ScheduleOrderVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,5 +44,11 @@ public class UserScheduleController {
     public Result getScheduleInfo(@PathVariable String scheduleId) {
          Schedule  schedule = scheduleService.getScheduleInfo(scheduleId );
         return Result.ok(schedule);
+    }
+
+    @GetMapping("/order/{scheduleId}")
+    public ScheduleOrderVo getScheduleOrder(@PathVariable String scheduleId) {
+        ScheduleOrderVo  scheduleOrderVo = scheduleService.getScheduleOrderVo(scheduleId );
+        return scheduleOrderVo;
     }
 }
