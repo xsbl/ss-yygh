@@ -1,7 +1,5 @@
 package com.sisheng.yygh.hosp.client;
 
-import com.bobochang.yygh.vo.hosp.ScheduleOrderVo;
-import com.bobochang.yygh.vo.order.SignInfoVo;
 import com.sisheng.yygh.vo.hosp.ScheduleOrderVo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
