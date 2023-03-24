@@ -14,9 +14,9 @@ import org.springframework.context.annotation.ComponentScan;
  **/
 
 @SpringBootApplication(exclude = MongoAutoConfiguration.class)
-@ComponentScan(basePackages = {"com.bobochang"})
-@EnableDiscoveryClient
-@EnableFeignClients(basePackages = {"com.bobochang"})
+@ComponentScan(basePackages = {"com.sisheng"})
+@EnableDiscoveryClient//这个不配也行，奇怪！
+@EnableFeignClients(basePackages = {"com.sisheng"})
 public class ServiceOrderApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceOrderApplication.class, args);

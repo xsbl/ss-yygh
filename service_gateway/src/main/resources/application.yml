@@ -37,6 +37,10 @@ spring:
          uri: lb://service-user
          predicates:
           - Path=/*/userInfo/** # 路径匹配
+       - id: service-user2
+         uri: lb://service-user
+         predicates:
+           - Path=/api/user/** # 路径匹配
        - id: service-sms
          uri: lb://service-sms
          predicates:
@@ -45,6 +49,10 @@ spring:
          uri: lb://service-oss
          predicates:
           - Path=/*/oss/** # 路径匹配
+       - id: service-order
+         uri: lb://service-order
+         predicates:
+           - Path=/*/order/** # 路径匹配
  nacos:
    discovery:
      server-addr: 127.0.0.1:8848
