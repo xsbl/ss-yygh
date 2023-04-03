@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     @Autowired
-    private OrderInfoService orderInfoServiceService;
+    private OrderInfoService orderInfoService;
 
     @ApiOperation(value = "获取分页列表")
     @GetMapping("{page}/{limit}")
@@ -35,7 +35,7 @@ public class OrderController {
             @PathVariable Long limit,
             OrderQueryVo orderQueryVo) {
         IPage<OrderInfo> pageParam = new Page<>(page, limit);
-        IPage<OrderInfo> pageModel = orderInfoServiceService.selectPage(pageParam, orderQueryVo);
+        IPage<OrderInfo> pageModel = orderInfoService.selectPage(pageParam, orderQueryVo);
         return Result.ok(pageModel);
     }
 
@@ -48,7 +48,7 @@ public class OrderController {
     @ApiOperation(value = "获取订单")
     @GetMapping("show/{id}")
     public Result get(@PathVariable Long id) {
-        return Result.ok(orderInfoServiceService.show(id));
+        return Result.ok(orderInfoService.show(id));
     }
 
 }

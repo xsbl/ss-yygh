@@ -19,7 +19,6 @@ import com.sisheng.yygh.order.mapper.OrderInfoMapper;
 import com.sisheng.yygh.order.service.OrderInfoService;
 import com.sisheng.yygh.user.client.PatientFeignClient;
 import com.sisheng.yygh.vo.hosp.ScheduleOrderVo;
-import com.bobochang.yygh.vo.order.*;
 import com.sisheng.yygh.vo.order.*;
 import org.joda.time.DateTime;
 import org.springframework.beans.BeanUtils;
@@ -57,7 +56,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
         //获取就诊人信息
-        ScheduleOrderVo scheduleOrderVo = hospitalFeignClient.getScheduleOrderVo(scheduleId);
+        ScheduleOrderVo scheduleOrderVo = hospitalFeignClient.getScheduleOrder(scheduleId);
         if (scheduleOrderVo == null) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
@@ -66,7 +65,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 || new DateTime(scheduleOrderVo.getEndTime()).isBeforeNow()) {
             throw new YyghException(ResultCodeEnum.TIME_NO);
         }*/
-        SignInfoVo signInfoVo = hospitalFeignClient.getSignInfoVo(scheduleOrderVo.getHoscode());
+//        SignInfoVo signInfoVo = hospitalFeignClient.getSignInfoVo(scheduleOrderVo.getHoscode());
         if (null == scheduleOrderVo) {
             throw new YyghException(ResultCodeEnum.PARAM_ERROR);
         }
@@ -85,8 +84,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         orderInfo.setOrderStatus(OrderStatusEnum.UNPAID.getStatus());
         baseMapper.insert(orderInfo);
 
-        //调用医院接口 实现预约挂号操作
-        //设置调用医院接口需要的参数 参数放到map集合中
+        //调用第三方医院接口 实现预约挂号操作
+        //设置调用第三方医院接口需要的参数 参数放到map集合中
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("hoscode", orderInfo.getHoscode());
         paramMap.put("depcode", orderInfo.getDepcode());
@@ -112,11 +111,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         paramMap.put("contactsPhone", patient.getContactsPhone());
         paramMap.put("timestamp", HttpRequestHelper.getTimestamp());
         /*String sign = HttpRequestHelper.getSign(paramMap, signInfoVo.getSignKey());*/
-        String sign = MD5.encrypt(signInfoVo.getSignKey());
-        paramMap.put("sign", sign);
+//        String sign = MD5.encrypt(signInfoVo.getSignKey());
+//        paramMap.put("sign", sign);
 
-        //请求医院系统接口
-        JSONObject result = HttpRequestHelper.sendRequest(paramMap, signInfoVo.getApiUrl() + "/order/submitOrder");
+        //请求第三方医院系统接口
+//        JSONObject result = HttpRequestHelper.sendRequest(paramMap, signInfoVo.getApiUrl() + "/order/submitOrder");
+        JSONObject result = HttpRequestHelper.sendRequest(paramMap, "http://localhost:9998/order/submitOrder");
         if (result.getInteger("code") == 200) {
             JSONObject jsonObject = result.getJSONObject("data");
             //预约记录唯一标识（医院预约记录主键）
@@ -147,7 +147,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
 
             //TODO 发送短信通知(无模板暂未开发)
             //发送mq信息
-            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
+//            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
 
         } else {
             throw new YyghException(result.getString("message"), ResultCodeEnum.FAIL.getCode());
@@ -219,19 +219,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         /*if (quitTime.isBeforeNow()) {
             throw new YyghException(ResultCodeEnum.CANCEL_ORDER_NO);
         }*/
-        SignInfoVo signInfoVo = hospitalFeignClient.getSignInfoVo(orderInfo.getHoscode());
-        if (null == signInfoVo) {
-            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
-        }
+//        SignInfoVo signInfoVo = hospitalFeignClient.getSignInfoVo(orderInfo.getHoscode());
+//        if (null == signInfoVo) {
+//            throw new YyghException(ResultCodeEnum.PARAM_ERROR);
+//        }
         Map<String, Object> reqMap = new HashMap<>();
         reqMap.put("hoscode", orderInfo.getHoscode());
         reqMap.put("hosRecordId", orderInfo.getHosRecordId());
         reqMap.put("timestamp", HttpRequestHelper.getTimestamp());
         /*String sign = HttpRequestHelper.getSign(reqMap, signInfoVo.getSignKey());*/
-        String sign = MD5.encrypt(signInfoVo.getSignKey());
-        reqMap.put("sign", sign);
+//        String sign = MD5.encrypt(signInfoVo.getSignKey());
+//        reqMap.put("sign", sign);
 
-        JSONObject result = HttpRequestHelper.sendRequest(reqMap, signInfoVo.getApiUrl() + "/order/updateCancelStatus");
+//        JSONObject result = HttpRequestHelper.sendRequest(reqMap, signInfoVo.getApiUrl() + "/order/updateCancelStatus");
+        JSONObject result = HttpRequestHelper.sendRequest(reqMap, "http://localhost:9998/order/updateCancelStatus");
 
         if (result.getInteger("code") != 200) {
             throw new YyghException(result.getString("message"), ResultCodeEnum.FAIL.getCode());

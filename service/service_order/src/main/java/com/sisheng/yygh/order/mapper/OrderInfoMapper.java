@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.sisheng.yygh.model.order.OrderInfo;
 import com.sisheng.yygh.vo.order.OrderCountQueryVo;
 import com.sisheng.yygh.vo.order.OrderCountVo;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.List;
  * @description
  * @created 2022/7/16-13:05
  **/
+@Mapper
 public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
 
     //查询预约统计数据的方法
