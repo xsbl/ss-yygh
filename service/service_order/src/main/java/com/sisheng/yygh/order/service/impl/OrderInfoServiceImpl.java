@@ -138,14 +138,14 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             //排班剩余预约数
             Integer availableNumber = jsonObject.getInteger("availableNumber");
 
-            //发送mq信息更新号源和短信通知
-            //发送mq信息更新号源
+            //发送mq信息更新可预约数
             OrderMqVo orderMqVo = new OrderMqVo();
             orderMqVo.setScheduleId(scheduleId);
             orderMqVo.setReservedNumber(reservedNumber);
             orderMqVo.setAvailableNumber(availableNumber);
 
             //TODO 发送短信通知(无模板暂未开发)
+
             //发送mq信息
 //            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
 
