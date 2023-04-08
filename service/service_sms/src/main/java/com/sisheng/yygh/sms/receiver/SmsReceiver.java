@@ -27,7 +27,7 @@ public class SmsReceiver {
             exchange = @Exchange(value = MqConst.EXCHANGE_DIRECT_MSM),
             key = {MqConst.ROUTING_MSM_ITEM}
     ))
-    public void send(MsmVo msmVo, Message message, Channel channel) {
+    public void consume(MsmVo msmVo, Message message, Channel channel) {
         smsService.send(msmVo);
     }
 }

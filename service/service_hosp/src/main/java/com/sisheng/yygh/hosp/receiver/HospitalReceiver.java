@@ -37,6 +37,7 @@ public class HospitalReceiver {
             key = {MqConst.ROUTING_ORDER}
     ))
     public void receiver(OrderMqVo orderMqVo, Message message, Channel channel) throws IOException {
+        System.out.println("service-hosp消费者更新预约数");
         //下单成功更新预约数
         if (orderMqVo.getAvailableNumber() != null) {
             Schedule schedule = scheduleService.getScheduleInfo(orderMqVo.getScheduleId());

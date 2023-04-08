@@ -147,7 +147,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             //TODO 发送短信通知(无模板暂未开发)
 
             //发送mq信息
-//            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
+            rabbitService.sendMessage(MqConst.EXCHANGE_DIRECT_ORDER, MqConst.ROUTING_ORDER, orderMqVo);
 
         } else {
             throw new YyghException(result.getString("message"), ResultCodeEnum.FAIL.getCode());
