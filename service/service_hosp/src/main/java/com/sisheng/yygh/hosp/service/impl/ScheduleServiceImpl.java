@@ -316,11 +316,11 @@ public class ScheduleServiceImpl implements ScheduleService {
         return scheduleOrderVo;
     }
 
-//    @Override
-//    public void update(Schedule schedule) {
-//        schedule.setUpdateTime(new Date());
-//        scheduleRepository.save(schedule);
-//    }
+    @Override
+    public void update(Schedule schedule) {
+        schedule.setUpdateTime(new Date());
+        scheduleRepository.save(schedule);
+    }
 
 
     /**
