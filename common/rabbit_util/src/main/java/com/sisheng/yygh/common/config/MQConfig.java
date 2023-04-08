@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class MQConfig {
+    // 将发送到RabbitMQ中的pojo对象自动转换为json格式存储
+    // 同时，消费者消费消息时，自动把json转换为pojo对象
     @Bean
     public MessageConverter messageConverter(){
         return new Jackson2JsonMessageConverter();
