@@ -2,13 +2,19 @@ package com.sisheng.yygh.order.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sisheng.yygh.enums.OrderStatusEnum;
 import com.sisheng.yygh.enums.PaymentStatusEnum;
 import com.sisheng.yygh.model.order.OrderInfo;
 import com.sisheng.yygh.model.order.PaymentInfo;
 import com.sisheng.yygh.order.mapper.PaymentMapper;
+import com.sisheng.yygh.order.service.OrderInfoService;
 import com.sisheng.yygh.order.service.PaymentService;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.Map;
 
 @Service
 public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, PaymentInfo> implements PaymentService {
@@ -36,4 +42,29 @@ public class PaymentServiceImpl extends ServiceImpl<PaymentMapper, PaymentInfo> 
          paymentInfo.setTotalAmount(orderInfo.getAmount());
          baseMapper.insert(paymentInfo);
          }
- }
+
+     @Autowired
+     private OrderInfoService orderInfoService;
+
+     @Override
+     public void paySuccess(String out_trade_no, Integer status, Map<String, String> resultMap) {
+          //1 更新订单状态
+          QueryWrapper<OrderInfo> wrapperOrder = new QueryWrapper<>();
+          wrapperOrder.eq("out_trade_no",out_trade_no);
+          OrderInfo orderInfo = orderInfoService.getOne(wrapperOrder);
+          //状态已经支付
+          orderInfo.setOrderStatus(OrderStatusEnum.PAID.getStatus());
+          orderInfoService.updateById(orderInfo);
+
+          //2 更新支付记录状态
+          QueryWrapper<PaymentInfo> wrapperPayment = new QueryWrapper<>();
+          wrapperPayment.eq("out_trade_no",out_trade_no);
+          PaymentInfo paymentInfo = baseMapper.selectOne(wrapperPayment);
+          //设置状态
+          paymentInfo.setPaymentStatus(PaymentStatusEnum.PAID.getStatus());
+          paymentInfo.setTradeNo(resultMap.get("transaction_id"));
+          paymentInfo.setCallbackTime(new Date());
+          paymentInfo.setCallbackContent(resultMap.toString());
+          baseMapper.updateById(paymentInfo);
+     }
+}
